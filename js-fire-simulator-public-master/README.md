@@ -1,2 +1,0 @@
-# JS-Fire-Simulator-Public
-
