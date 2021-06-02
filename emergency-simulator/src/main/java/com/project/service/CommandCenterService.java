@@ -10,12 +10,13 @@ import com.project.model.CommandCenter;
 import com.project.model.dto.Coord;
 import com.project.model.dto.FireDto;
 import com.project.repo.CommandCenterRepo;
+
 public class CommandCenterService {
 
 	@Autowired
 	CommandCenterRepo commandCenterRepo;
 
-	public CommandCenter getStation(int id) {
+	public CommandCenter getStation(Integer id) {
 		Optional<CommandCenter> hOpt = CommandCenterRepo.findById(id);
 		if (hOpt.isPresent()) {
 			return hOpt.get();
