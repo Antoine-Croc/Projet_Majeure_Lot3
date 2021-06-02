@@ -18,7 +18,7 @@ public class InterventionService {
 		System.out.println(createdIntervention);
 	}
 	
-	public Intervention getIntervention(int id) {
+	public Intervention getIntervention(Integer id) {
 		Optional<Intervention> hOpt = interventionRepo.findById(id);
 		if (hOpt.isPresent()) {
 			return hOpt.get();

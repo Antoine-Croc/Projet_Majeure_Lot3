@@ -18,7 +18,7 @@ public class StationService {
 		System.out.println(createdStation);
 	}
 	
-	public Station getStation(int id) {
+	public Station getStation(Integer id) {
 		Optional<Station> hOpt = stationRepo.findById(id);
 		if (hOpt.isPresent()) {
 			return hOpt.get();
