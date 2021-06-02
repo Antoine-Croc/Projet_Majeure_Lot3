@@ -22,7 +22,7 @@ public class VehicleService {
 	}
 	
 	
-	public Vehicle getVehicleById(int id) {
+	public Vehicle getVehicleById(Integer id) {
 		Optional<Vehicle> hOpt = vRepository.findById(id);
 		if(hOpt.isPresent()) {
 			return hOpt.get();
@@ -30,4 +30,11 @@ public class VehicleService {
 		else {return null;}
 		
 	}
+	
+	public void deleteVehicleById(Integer id) {
+		vRepository.deleteById(id);
+		System.out.println("delete vehicle id:"+id);
+	}
+	
+	
 }
