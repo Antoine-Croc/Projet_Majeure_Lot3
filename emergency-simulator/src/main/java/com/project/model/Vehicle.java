@@ -1,13 +1,16 @@
 package com.project.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.project.model.dto.LiquidType;
+import com.project.model.dto.VehicleDto;
 import com.project.model.dto.VehicleType;
 
-public class Vehicle {
+@Entity
+public class Vehicle  {
 
 	public static final int CREW_MEMBER_START_VALUE=-1;
 	
@@ -33,23 +36,21 @@ public class Vehicle {
 		liquidType=LiquidType.ALL;
 	}
 
-	public Vehicle(double lon, double lat, com.project.model.dto.VehicleType type, float efficiency,
-			com.project.model.dto.LiquidType liquidType, float liquidQuantity, float liquidConsumption, float fuel,
-			float fuelConsumption, int crewMember, int crewMemberCapacity, Integer facilityRefID) {
+	public Vehicle(VehicleDto vehicleDto) {
 		super();
-		this.idDto=0; //A modifier lors du retour d'information de vehicleDto
-		this.lon = lon;
-		this.lat = lat;
-		this.type = type;
-		this.efficiency = efficiency;
-		this.liquidType = liquidType;
-		this.liquidQuantity = liquidQuantity;
-		this.liquidConsumption = liquidConsumption;
-		this.fuel = fuel;
-		this.fuelConsumption = fuelConsumption;
-		this.crewMember = crewMember;
-		this.crewMemberCapacity = crewMemberCapacity;
-		this.facilityRefID = facilityRefID;
+		this.idDto= -1;
+		this.lon = vehicleDto.getLon();
+		this.lat = vehicleDto.getLat();
+		this.type = vehicleDto.getType();
+		this.efficiency = vehicleDto.getEfficiency();
+		this.liquidType = vehicleDto.getLiquidType();
+		this.liquidQuantity = vehicleDto.getLiquidQuantity();
+		this.liquidConsumption = vehicleDto.getLiquidConsumption();
+		this.fuel = vehicleDto.getFuel();
+		this.fuelConsumption = vehicleDto.getFuelConsumption();
+		this.crewMember = vehicleDto.getCrewMember();
+		this.crewMemberCapacity = vehicleDto.getCrewMemberCapacity();
+		this.facilityRefID = vehicleDto.getFacilityRefID();
 	}
 
 	public double getLon() {
