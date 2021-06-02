@@ -6,20 +6,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.project.model.dto.VehicleDto;
-
 public class Intervention {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private ArrayList<VehicleDto> vehicleL;
+	private ArrayList<Integer> vehicleL;
 	private Fire fire;
 	private String status;
 	
 	public Intervention(Fire fire) {
-		this.setVehicleL(null);
-		this.setStatus("Ongoing");
+		this.vehicleL = new ArrayList<Integer>();;
+		this.status = "Ongoing";
 		this.fire = fire;
 	}
 
@@ -43,11 +41,11 @@ public class Intervention {
 		this.status = status;
 	}
 
-	public ArrayList<VehicleDto> getVehicleL() {
+	public ArrayList<Integer> getVehicleL() {
 		return vehicleL;
 	}
 
-	public void setVehicleL(ArrayList<VehicleDto> vehicleL) {
+	public void setVehicleL(ArrayList<Integer> vehicleL) {
 		this.vehicleL = vehicleL;
 	}
 }

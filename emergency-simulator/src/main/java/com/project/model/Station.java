@@ -19,13 +19,13 @@ public class Station {
 	private int id;
 	private Coord coord;
 	
-	private ArrayList<VehicleDto> vehiclesL;
+	private ArrayList<Integer> vehiclesL;
 	
 	public Station(Coord coord) {
 		this.coord = coord;
-		this.vehiclesL = null;
+		this.vehiclesL = new ArrayList<Integer>();
 	}
-	public Station(Coord coord, ArrayList<VehicleDto> list) {
+	public Station(Coord coord, ArrayList<Integer> list) {
 		this.coord = coord;
 		this.vehiclesL = list; ///potentiellemnt inutile
 	}
@@ -47,11 +47,11 @@ public class Station {
 		this.coord = coord;
 	}
 
-	public ArrayList<VehicleDto> getVehiclesL() {
+	public ArrayList<Integer> getVehiclesL() {
 		return vehiclesL;
 	}
 
-	public void setVehiclesL(ArrayList<VehicleDto> vehiclesL) {
+	public void setVehiclesL(ArrayList<Integer> vehiclesL) {
 		this.vehiclesL = vehiclesL;
 	}
 }
