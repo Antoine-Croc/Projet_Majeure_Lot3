@@ -2,29 +2,43 @@ package com.project.model;
 
 import java.util.ArrayList;
 
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import com.project.model.dto.Coord;
 import com.project.model.dto.VehicleDto;
 
-public class Manager {
 
+@Entity
+public class Station {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
 	private Coord coord;
 	
 	private ArrayList<VehicleDto> vehiclesL;
 	
-	public Manager(Coord coord) {
+	public Station(Coord coord) {
 		this.coord = coord;
 		this.vehiclesL = null;
 	}
-	public Manager(Coord coord, ArrayList<VehicleDto> list) {
+	public Station(Coord coord, ArrayList<VehicleDto> list) {
 		this.coord = coord;
 		this.vehiclesL = list; ///potentiellemnt inutile
 	}
 
 	@Override
 	public String toString() {
-		return "Manager [coord=" + coord + ", vehiclesL=" + vehiclesL + "]";
+		return "Station [id=" + id + " coord=" + coord + ", vehiclesL=" + vehiclesL + "]";
 	}
 	
+	public int getId() {
+		return id;
+	}
+
 	public Coord getCoord() {
 		return coord;
 	}
