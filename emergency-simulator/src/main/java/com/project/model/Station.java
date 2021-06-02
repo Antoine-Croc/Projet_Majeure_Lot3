@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.project.model.dto.Coord;
-import com.project.model.dto.VehicleDto;
+//import com.project.model.dto.VehicleDto;
 
 
 @Entity
