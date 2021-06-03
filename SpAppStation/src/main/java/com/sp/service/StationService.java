@@ -5,9 +5,18 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
-import com.sp.repo.StationRepo;
+import com.project.model.dto.FireDto;
 import com.sp.model.Station;
+import com.sp.repo.StationRepo;
+
+import com.project.model.dto.Coord;
+import com.project.model.dto.VehicleDto;
 
 public class StationService {
 	@Autowired
@@ -53,4 +62,24 @@ public class StationService {
 	}
 	
 	///TODO integrer class VehicleDto?
+	public String findGoodTruck(int id, int idFire) {
+		String ret = "KO"; 
+		Station stationTest = getStation(id);
+		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8081/fire/"+idFire, FireDto.class);
+		for (Integer idV : stationTest.getVehiclesL()) {
+			ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8081/vehicle/"+idV, VehicleDto.class);
+			VehicleDto vehicleTest = vehicleTestTemp.getBody();
+			if (vehicleTest.getLiquidType().toString().equals("ALL") ) {
+				String url = "https://localhost:8083/interventions/"+"?idfire="+idFire+"&idcamion="+vehicleTest.getId();
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
+				ResponseEntity<String> retourIntervention = new RestTemplate().postForEntity( url, request , String.class );
+				ret = "OK";
+				break;
+			}
+		}
+		
+		return ret; 
+	}
 }
