@@ -2,42 +2,44 @@ package com.project.model;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class Intervention {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private ArrayList<Integer> vehicleL;
-	private Fire fire;
-	private String status;
+	private int fireId;
+	private FireStatus status;
 	
-	public Intervention(Fire fire) {
+	public Intervention(int fireId) {
 		this.vehicleL = new ArrayList<Integer>();;
-		this.status = "Ongoing";
-		this.fire = fire;
+		this.status = FireStatus.New;
+		this.fireId = fireId;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public Fire getFire() {
-		return fire;
+	public int getFireId() {
+		return fireId;
 	}
 
-	public void setFire(Fire fire) {
-		this.fire = fire;
+	public void setFireId(int fireId) {
+		this.fireId = fireId;
 	}
 
-	public String getStatus() {
+	public FireStatus getFireStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setFireStatus(FireStatus status) {
 		this.status = status;
 	}
 
