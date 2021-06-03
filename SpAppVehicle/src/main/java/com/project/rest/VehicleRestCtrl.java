@@ -126,7 +126,7 @@ public class VehicleRestCtrl {
 		
 		//get response( true / false)
 		String operation = response.getBody();
-		System.out.println("operation update:"+operation);
+		System.out.println("operation delete:"+operation);
 	}
 	
 	
@@ -170,14 +170,17 @@ public class VehicleRestCtrl {
 	 */
 	private void updateLocalRepositoryById(Integer idVehicle, Integer idVehicleDto) {
 		Vehicle vehicle = vService.getVehicleById(idVehicle);
-		String urlSimulator = "http://localhost:8081/vehicle"+idVehicleDto;
+		String urlSimulator = "http://localhost:8081/vehicle/"+idVehicleDto;
 		RestTemplate restTemplate = new RestTemplate();
+		
+
 		ResponseEntity<VehicleDto> response = restTemplate.exchange(urlSimulator, HttpMethod.GET,null,VehicleDto.class);
 		VehicleDto vehicleDto = response.getBody();
 		
 		vehicle = updateAttributes(vehicle,vehicleDto);
 		vService.addVehicle(vehicle);
 		
+
 	}
 	
 	/*
