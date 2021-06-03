@@ -61,7 +61,6 @@ public class StationService {
 		station.getVehiclesL().remove(idV);
 	}
 	
-	///TODO integrer class VehicleDto?
 	public String findGoodTruck(int id, int idFire) {
 		String ret = "KO"; 
 		Station stationTest = getStation(id);
@@ -78,8 +77,7 @@ public class StationService {
 				ret = "OK";
 				break;
 			}
-		}
-		
+		}	
 		return ret; 
 	}
 }
