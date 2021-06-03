@@ -61,11 +61,10 @@ public class CommandCenterService {
 				String url = "https://localhost:8082/stations/"+idCasernProche;
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-				MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-				map.add("idFire", String.valueOf(fire.getId()));
-
-				HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+				url=url+"?idfire="+fire.getId();
+				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
+				
+				
 				ResponseEntity<String> retourStation = new RestTemplate().postForEntity( url, request , String.class );
 				
 				if(retourStation.equals("OK")) ret = true;
