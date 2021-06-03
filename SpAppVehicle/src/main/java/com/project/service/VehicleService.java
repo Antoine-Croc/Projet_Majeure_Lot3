@@ -20,7 +20,7 @@ public class VehicleService {
 	public void  addVehicle(Vehicle vehicle) {
 		Vehicle createdVehicle = vRepository.save(vehicle);
 		
-		System.out.println(createdVehicle);
+		
 	}
 	
 	
