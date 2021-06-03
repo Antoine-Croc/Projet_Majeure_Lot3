@@ -17,7 +17,7 @@ public class Vehicle  {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private int idDto;
+	private Integer idDto;
 	private double lon;
 	private double lat;
 	private VehicleType type;
@@ -157,11 +157,11 @@ public class Vehicle  {
 		this.id = id;
 	}
 
-	public int getIdDto() {
+	public Integer getIdDto() {
 		return idDto;
 	}
 
-	public void setIdDto(int idDto) {
+	public void setIdDto(Integer idDto) {
 		this.idDto = idDto;
 	}
 	

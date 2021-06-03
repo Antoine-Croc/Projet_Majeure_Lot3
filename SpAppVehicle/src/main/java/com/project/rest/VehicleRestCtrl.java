@@ -51,6 +51,27 @@ public class VehicleRestCtrl {
 		return vehicle;
 	}
 	
+	//retourner tous les vehicules depuis FireSimulator
+	@RequestMapping(method=RequestMethod.GET, value = "/vehicles",produces = MediaType.APPLICATION_JSON_VALUE)
+	public VehicleDto[] getAllVehicle() {
+		
+		//faire la requete vers FireSimulator
+		String urlSimulator = "http://localhost:8081/vehicle";
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<VehicleDto[]> response = restTemplate.exchange(urlSimulator, HttpMethod.GET,null,VehicleDto[].class);
+		
+		//mettre le repository a jour 
+		VehicleDto[] vehiclesDto = response.getBody();
+		for(VehicleDto vehicleDto : vehiclesDto) {
+			
+			
+		}
+		
+		return response.getBody();
+	}
+	
+	
+	
 	@RequestMapping(method=RequestMethod.PUT,value = "/vehicles/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void putVehicleById(@PathVariable String id, @RequestBody VehicleDto vehicleDTO) {
 		//get vehicle par id  depuis repository
@@ -60,6 +81,8 @@ public class VehicleRestCtrl {
 		
 		/* id du vehicleDTO doit etre mise a jour*/
 		vehicleDTO.setId(idDTO);
+		
+		/* TODO mettre a jour le repository*/
 		
 		//mettre a jour dans le FireSimulator
 		RestTemplate restTemplate = new RestTemplate();
@@ -80,6 +103,32 @@ public class VehicleRestCtrl {
 	}
 	
 	
+	
+	private void updateLocalRepositor(String urlSimulator) {
+		Vehicle vehicle;
+		
+		//faire la requete vers FireSimulator pour avoir tous les vehicules 
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<VehicleDto[]> response = restTemplate.exchange(urlSimulator, HttpMethod.GET,null,VehicleDto[].class);
+		
+		//mettre le repository a jour 
+		VehicleDto[] vehiclesDto = response.getBody();
+		for(VehicleDto vehicleDto : vehiclesDto) {
+			vehicle = vService.getVehicleByIdDto(vehicleDto.getId());
+			if(vehicle != null) {
+				
+				
+				}
+			else {
+				vehicle = new Vehicle(vehicleDto);
+				vehicle.setIdDto(vehicleDto.getId());
+				vService.addVehicle(vehicle);
+				}
+			
+		
+			}
+		
+		}
 	
 	
 	

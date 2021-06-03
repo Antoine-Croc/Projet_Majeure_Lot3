@@ -31,6 +31,17 @@ public class VehicleService {
 		
 	}
 	
+	public Vehicle getVehicleByIdDto(Integer id) {
+		Optional<Vehicle> hOpt = vRepository.findByIdDto(id);
+		if(hOpt.isPresent()) {
+			return hOpt.get();
+		}
+		else {return null;}
+		
+	}
+	
+	
+	
 	public void deleteVehicleById(Integer id) {
 		vRepository.deleteById(id);
 		System.out.println("delete vehicle id:"+id);
