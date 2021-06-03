@@ -24,14 +24,14 @@ public class StationRestCtrl {
 	@Autowired
 	private StationService sService;
 
-	@RequestMapping(method=RequestMethod.GET,value="/stations")
-	public List<Station> getAll() {
-		return sService.getAllStation();
-	}
-	
 	@RequestMapping(method=RequestMethod.GET,value="/stations/{idS}")
-	public Station getById(@PathVariable int idS) {
-		return sService.getStation(idS);
+	public Station getStation(@PathVariable int idS) {
+		Station s = sService.getStation(idS);
+		return s;
+	}
+	@RequestMapping(method=RequestMethod.GET, value="/stations")
+	public List<Station> getAllStation(){
+		return sService.getAllStation();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/stations",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,13 +57,5 @@ public class StationRestCtrl {
 		sService.removeVehicle(s, idV);
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,value="/stations/{idS}")
-	public Station getStation(@PathVariable int idS) {
-		Station s = sService.getStation(idS);
-		return s;
-	}
-	@RequestMapping(method=RequestMethod.GET, value="/stations")
-	public List<Station> getAllStation(){
-		return sService.getAllStation();
-	}
+
 }
