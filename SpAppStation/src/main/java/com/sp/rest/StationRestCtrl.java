@@ -29,18 +29,41 @@ public class StationRestCtrl {
 		return sService.getAllStation();
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,value="/stations/{id}")
-	public Station getById(@PathVariable int id) {
-		return sService.getStation(id);
+	@RequestMapping(method=RequestMethod.GET,value="/stations/{idS}")
+	public Station getById(@PathVariable int idS) {
+		return sService.getStation(idS);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/stations",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
 	public void addStation(@RequestBody Coord coord) {
-		Station station = new Station(coord);
+		Station s = new Station(coord);
+		sService.addStation(s);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/stations/{id}")
-	public String findGoodTruck(@PathVariable int id, @RequestParam int idFire) {
-		return sService.findGoodTruck(id, idFire);
+	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}")
+	public String findGoodTruck(@PathVariable int idS, @RequestParam int idFire) {
+		return sService.findGoodTruck(idS, idFire);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}/Vehicles")
+	public void addVehicleId(@RequestParam int idV, @PathVariable int idS) {
+		Station s = sService.getStation(idS);
+		sService.addVehicle(s, idV);
+	}
+	
+	@RequestMapping(method=RequestMethod.DELETE,value="/stations/{idS}/Vehicles/{idV}")
+	public void removeVehicleId(@PathVariable int idS, @PathVariable int idV) {
+		Station s = sService.getStation(idS);
+		sService.removeVehicle(s, idV);
+	}
+	
+	@RequestMapping(method=RequestMethod.GET,value="/stations/{idS}")
+	public Station getStation(@PathVariable int idS) {
+		Station s = sService.getStation(idS);
+		return s;
+	}
+	@RequestMapping(method=RequestMethod.GET, value="/stations")
+	public List<Station> getAllStation(){
+		return sService.getAllStation();
 	}
 }
