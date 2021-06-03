@@ -1,0 +1,5 @@
+com/project/rest/VehicleRestCtrl.class
+com/project/repository/VehicleRepository.class
+com/project/vehicleApp.class
+com/project/service/VehicleService.class
+com/project/model/Vehicle.class

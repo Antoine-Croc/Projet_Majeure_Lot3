@@ -32,8 +32,8 @@ public class VehicleRestCtrl {
 	@RequestMapping(method=RequestMethod.POST,value = "/vehicles",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
 	public Vehicle addVehicle(@RequestBody VehicleDto vehicleDto ) {
 		Vehicle vehicle = new Vehicle(vehicleDto);
-		
 		String urlSimulator = "http://localhost:8081/vehicle";
+		
 		//ajouter le vehicule dans le FireSimulator
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<VehicleDto> request = new HttpEntity<>(vehicleDto);
@@ -45,7 +45,10 @@ public class VehicleRestCtrl {
 		vehicle.setIdDto(responseVehicle.getId());
 		vService.addVehicle(vehicle);
 	
-		System.out.println("add vehicle : "+ responseVehicle);
+	
+		  if(response.getStatusCode() == HttpStatus.OK){
+				System.out.println("add vehicle : "+ responseVehicle);
+	        }
 		return vehicle;
 	}
 	
@@ -196,6 +199,7 @@ public class VehicleRestCtrl {
 		vehicle.setFacilityRefID( vehicleDto.getFacilityRefID()); 
 		return vehicle;
 	}
+	
 	
 	
 	

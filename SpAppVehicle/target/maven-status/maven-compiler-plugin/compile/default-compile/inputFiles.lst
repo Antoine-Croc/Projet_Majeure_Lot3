@@ -1,5 +1,5 @@
-/home/guo/4ETI/projectFin/eclipse/vehicleapp/src/main/java/com/project/rest/VehicleRestCtrl.java
-/home/guo/4ETI/projectFin/eclipse/vehicleapp/src/main/java/com/project/repository/VehicleRepository.java
-/home/guo/4ETI/projectFin/eclipse/vehicleapp/src/main/java/com/project/service/VehicleService.java
-/home/guo/4ETI/projectFin/eclipse/vehicleapp/src/main/java/com/project/model/Vehicle.java
-/home/guo/4ETI/projectFin/eclipse/vehicleapp/src/main/java/com/project/vehicleApp.java
+/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/service/VehicleService.java
+/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/repository/VehicleRepository.java
+/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/model/Vehicle.java
+/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/vehicleApp.java
+/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/rest/VehicleRestCtrl.java
