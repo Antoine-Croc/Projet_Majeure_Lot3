@@ -10,41 +10,63 @@ import com.project.model.dto.FireType;
 
 @Entity
 public class Fire {
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
-	private Coord coord;
-	private FireType type;
-	private int fireRadius;
 	
-	public Fire(FireType type,Coord coord, int fireRadius) {
-		this.type=type;
-		this.coord=coord;
-		this.setFireRadius(fireRadius);
-	}
+	private Integer id;
+	private String type;
+	private float intensity;
+	private float range;
+	private double lon;
+	private double lat;
 
-	public int getId() {
+	public Fire() {
+	}
+	
+	public Fire(Integer id, String type, float intensity, float range, double lon, double lat) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.intensity = intensity;
+		this.range = range;
+		this.lon = lon;
+		this.lat = lat;
+	}
+	public Integer getId() {
 		return id;
 	}
-
-	public Coord getCoord() {
-		return coord;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-
-	public FireType getType() {
+	public String getType() {
 		return type;
 	}
-
-	public void setType(FireType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
-
-	public int getFireRadius() {
-		return fireRadius;
+	public float getIntensity() {
+		return intensity;
 	}
-
-	public void setFireRadius(int fireRadius) {
-		this.fireRadius = fireRadius;
+	public void setIntensity(float intensity) {
+		this.intensity = intensity;
 	}
+	public float getRange() {
+		return range;
+	}
+	public void setRange(float range) {
+		this.range = range;
+	}
+	public double getLon() {
+		return lon;
+	}
+	public void setLon(double lon) {
+		this.lon = lon;
+	}
+	public double getLat() {
+		return lat;
+	}
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	
+	
+
 }

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sp.model.FireStatus;
 import com.sp.model.Intervention;
 import com.sp.repo.InterventionRepo;
 
@@ -53,5 +54,8 @@ public class InterventionService {
 		intervention.getVehicleL().remove(idV);
 	}
 	
+	public void modifyStatus(Intervention intervention, FireStatus status) {
+		intervention.setFireStatus(status);
+	}
 	///TODO doit-on integer VehicleDto?
 }
