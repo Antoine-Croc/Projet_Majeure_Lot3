@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.model.Vehicle;
+import com.project.model.VehicleIntervention;
 import com.project.model.dto.VehicleDto;
 import com.project.repository.VehicleRepository;
 
@@ -116,6 +117,30 @@ public class VehicleService {
 		return vehicle;
 	}
 	
-	
+	/*
+	 * A partir de la liste d'intervention
+	 * On verifie si le vehicule arrive a la destination
+	 */
+	public void VehiclePositionIsFinal() {
+		Integer idVehicle ;
+		double lat;
+		double lon;
+		Vehicle vehicle;
+		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
+		if( ! vehicleIntervention.listIntervention.isEmpty()) {
+			//parcourir toutes les interventions
+			 for( ArrayList<Double> intervention: vehicleIntervention.listIntervention) {
+				  idVehicle = intervention.get(0).intValue();
+				  lat = intervention.get(1);
+				  lon = intervention.get(2);
+				  vehicle = getVehicleById(idVehicle);
+				  //si le vehicule arrive a proximite
+				  if(Math.abs(vehicle.getLat() - lat)<1e-3 && Math.abs(vehicle.getLon() - lon)<1e-3) {
+					  vehicleIntervention.listIntervention.remove(intervention);
+					  System.out.println("vehicle:"+idVehicle + "is arrived at "+lat +":"+lon);
+				  }
+			 	}
+		 }
+	}
 
 }
