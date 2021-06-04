@@ -65,7 +65,7 @@ public class CommandCenterService {
 		
 		ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
 		FireDto[] fires = resp.getBody();
-		ResponseEntity<InterventionDto[]> result = new RestTemplate().getForEntity("http://localhost:8082/interventions", InterventionDto[].class);
+		ResponseEntity<InterventionDto[]> result = new RestTemplate().getForEntity("http://localhost:8086/interventions", InterventionDto[].class);
 		InterventionDto[] interventions = result.getBody();
 		
 		for (FireDto fire : fires) {

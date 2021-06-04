@@ -46,13 +46,14 @@ public class StationRestCtrl {
 		return sService.findGoodTruck(idS, idFire);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}/Vehicles")
+	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}/vehicles")
 	public void addVehicleId(@RequestParam int idV, @PathVariable int idS) {
 		Station s = sService.getStation(idS);
 		sService.addVehicle(s, idV);
+		
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE,value="/stations/{idS}/Vehicles/{idV}")
+	@RequestMapping(method=RequestMethod.DELETE,value="/stations/{idS}/vehicles/{idV}")
 	public void removeVehicleId(@PathVariable int idS, @PathVariable int idV) {
 		Station s = sService.getStation(idS);
 		sService.removeVehicle(s, idV);

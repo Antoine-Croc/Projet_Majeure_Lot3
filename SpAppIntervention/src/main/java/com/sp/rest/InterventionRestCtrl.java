@@ -40,7 +40,7 @@ public class InterventionRestCtrl {
 		return iService.getVehicleList(idI);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/interventions/{idI}/vehicles")
+	@RequestMapping(method=RequestMethod.PUT, value="/interventions/{idI}/vehicles")
 	public void addVehicle(@PathVariable int idI,@RequestParam int idV) {
 		Intervention i = iService.getIntervention(idI);
 		iService.addVehicle(i, idV);
