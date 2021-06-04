@@ -43,6 +43,7 @@ public class VehicleRestCtrl {
 	/*
 	 * Post le nouveau vehicle dans le repository et dans le FireSimulator
 	 */
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.POST, value = "/vehicles", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
@@ -70,6 +71,7 @@ public class VehicleRestCtrl {
 	/*
 	 * Get le vehicle par id de la classe Vehicle
 	 */
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.GET, value = "/vehicles/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Vehicle getVehicleById(@PathVariable String id) {
 		Vehicle vehicle = vService.getVehicleById(Integer.valueOf(id));
@@ -79,6 +81,7 @@ public class VehicleRestCtrl {
 	/*
 	 * Get tous les vehicules depuis FireSimulator
 	 */
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.GET, value = "/vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Vehicle> getAllVehicle() {
 
@@ -93,6 +96,7 @@ public class VehicleRestCtrl {
 	/*
 	 * Put mettre a jour le vehicle dans le repository et dans le FireSimulator
 	 */
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.PUT, value = "/vehicles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void putVehicleById(@PathVariable String id, @RequestBody VehicleDto vehicleDto) {
 		// get vehicle par id depuis repository
@@ -123,6 +127,7 @@ public class VehicleRestCtrl {
 	/*
 	 * DELETE supprimer le vehicle dans le repository et dans le FireSimulator
 	 */
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.DELETE, value = "/vehicles/{id}")
 	public void deleteVehicle(@PathVariable String id) {
 		Integer idVehicle = Integer.valueOf(id);
