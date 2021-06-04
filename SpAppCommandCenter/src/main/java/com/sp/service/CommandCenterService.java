@@ -79,17 +79,22 @@ public class CommandCenterService {
 			while (newFire && !ret) {
 				Coord casernProche = new Coord(10,10);
 				int idCasernProche = 110;   
-				ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8082/stations", StationDto[].class);
+				ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8085/stations", StationDto[].class);
 				StationDto[] stations = resultat.getBody();
 				for (StationDto station: stations) {
-					if ((caserneDejaTest != station.getId()) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getcoordDeLaBase().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getcoordDeLaBase().getLon()- fire.getLon()))))) {
+					System.out.println("tourX ---- ");
+					System.out.println(station.getId());
+					System.out.println(casernProche.getLat());
+					//System.out.println(fire.getLat());
+					//System.out.println(station.getcoordDeLaBase().getLat());
+					/*if ((caserneDejaTest != station.getId()) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getcoordDeLaBase().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getcoordDeLaBase().getLon()- fire.getLon()))))) {
 						casernProche.setLat(station.getcoordDeLaBase().getLat());
 						casernProche.setLon(station.getcoordDeLaBase().getLon());
 						idCasernProche = station.getId();
-					}
+					}*/
 				}
 				//TODO Faire un post 
-				String url = "https://localhost:8082/stations/"+idCasernProche;
+				String url = "https://localhost:8085/stations/"+idCasernProche;
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 				url=url+"?idfire="+fire.getId();
