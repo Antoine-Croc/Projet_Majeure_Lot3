@@ -24,7 +24,7 @@ public class Intervention {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		list.add(vehicleId);
 		 this.vehicleL = list;
-		 this.status = FireStatus.New;
+		 this.status = FireStatus.Ongoing;
 		this.fireId = fireId;
 	}
 
