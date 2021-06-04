@@ -1,6 +1,7 @@
 package com.sp.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,9 +20,11 @@ public class Intervention {
 	
 	public Intervention() {}
 	
-	public Intervention(int fireId) {
-		this.vehicleL = new ArrayList<Integer>();;
-		this.status = FireStatus.New;
+	public Intervention(int fireId, int vehicleId) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(vehicleId);
+		 this.vehicleL = list;
+		 this.status = FireStatus.New;
 		this.fireId = fireId;
 	}
 

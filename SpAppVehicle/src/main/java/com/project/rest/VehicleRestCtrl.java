@@ -2,12 +2,9 @@ package com.project.rest;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -24,14 +21,14 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.project.service.RunnableMng;
-import com.project.service.VehicleService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.Vehicle;
-import com.project.model.dto.Coord;
 import com.project.model.dto.VehicleDto;
+import com.project.service.RunnableMng;
+import com.project.service.VehicleService;
+import com.sp.model.Intervention;
 
 @RestController
 public class VehicleRestCtrl {
@@ -202,7 +199,11 @@ public class VehicleRestCtrl {
 		return coords;
 
 	}
-
+	
+	@RequestMapping(method=RequestMethod.PUT,value="/vehicles/{idV}")
+	public void getIntervention(@PathVariable int idI, @RequestParam float lon,@RequestParam float lat) {
+		vService.MAJ(idI,lon,lat);
+	}
 	public static class RouteBean {
 		List<ArrayList<Float>> coordinates;
 		String type;

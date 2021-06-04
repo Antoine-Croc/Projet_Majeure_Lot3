@@ -74,6 +74,7 @@ public class CommandCenterService {
 			int caserneDejaTest = 0;
 			
 			for(InterventionDto intervention : interventions) {
+				System.out.println(fire.getId()+" =========== "+intervention.getIdFire());
 				if(fire.getId() == intervention.getIdFire()) newFire = false;
 			}
 			while (newFire && !ret) {
@@ -98,8 +99,8 @@ public class CommandCenterService {
 				
 				
 				ResponseEntity<String> retourStation = new RestTemplate().postForEntity( url, request , String.class );
-				
-				if(retourStation.equals("OK")) ret = true;
+				System.out.println(retourStation.getBody());
+				if(retourStation.getBody().equals("OK")) ret = true;
 				else caserneDejaTest = idCasernProche;
 			}
 		}
@@ -109,15 +110,15 @@ public class CommandCenterService {
 	
 	public static class InterventionDto{
 		int id;
-		int idFire;
+		int fireId;
 		
 		public InterventionDto() {}
 		public int getIdFire() {
-			return idFire;
+			return fireId;
 		}
 		
-		public void setIdFire(int idFire) {
-			this.idFire = idFire;
+		public void setFireId(int fireId) {
+			this.fireId = fireId;
 		}
 	}
 	

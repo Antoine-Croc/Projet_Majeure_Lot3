@@ -21,8 +21,8 @@ public class InterventionRestCtrl {
 	InterventionService iService;
 	
 	@RequestMapping(method=RequestMethod.POST,value="/interventions")
-	public void addIntervention(@RequestParam int idF) {
-		Intervention i = new Intervention(idF);
+	public void addIntervention(@RequestParam int idF,@RequestParam int idV) {
+		Intervention i = new Intervention(idF,idV);
 		iService.addIntervention(i);
 	}
 	

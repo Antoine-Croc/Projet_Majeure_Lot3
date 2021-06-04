@@ -68,13 +68,16 @@ public class StationService {
 	public String findGoodTruck(int id, int idFire) {
 		String ret = "KO"; 
 		Station stationTest = getStation(id);
-	System.out.println("http://localhost:8081/fire/"+idFire+" --------------------------------------------");
-		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8081/fire/"+idFire, FireDto.class);
+		System.out.println(id);
+	System.out.println("http://localhost:8080/fires/"+idFire+" --------------------------------------------");
+		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8080/fires/"+idFire, FireDto.class);
+		System.out.println(stationTest);
 		for (Integer idV : stationTest.getVehiclesL()) {
-			ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8081/vehicle/"+idV, VehicleDto.class);
+			
+			ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
 			VehicleDto vehicleTest = vehicleTestTemp.getBody();
 			if (vehicleTest.getLiquidType().toString().equals("ALL") ) {
-				String url = "https://localhost:8083/interventions/"+"?idfire="+idFire+"&idcamion="+vehicleTest.getId();
+				String url = "http://localhost:8086/interventions/"+"?idF="+idFire+"&idV="+vehicleTest.getId();
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
@@ -82,7 +85,8 @@ public class StationService {
 				ret = "OK";
 				break;
 			}
-		}	
+		}
+		System.out.println(ret+"  --------------------  ");
 		return ret; 
 	}
 }

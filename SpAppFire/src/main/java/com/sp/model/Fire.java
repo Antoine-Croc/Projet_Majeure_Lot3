@@ -1,13 +1,15 @@
 package com.sp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import com.project.model.dto.Coord;
 import com.project.model.dto.FireType;
 
 @Entity
 public class Fire {
-	
+
+	@Id
 	private Integer id;
 	private String type;
 	private float intensity;
