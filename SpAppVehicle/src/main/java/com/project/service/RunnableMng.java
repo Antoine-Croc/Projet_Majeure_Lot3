@@ -8,22 +8,31 @@ import com.project.repository.VehicleRepository;
 public class RunnableMng {
 	private VehicleService vService;
 
-	DisplayRunnable dRunnable;
-	private Thread displayThread;
+	UpdateRunnable updateRunnable;
+	private Thread updateThread;
+	
+	InterventionRunnable interventionRunnabe;
+	private Thread interventionThread;
 
 	public RunnableMng(VehicleService vService) {
 		this.vService = vService;
 
 
 		// Create a Runnable is charge of executing cyclic actions
-		this.dRunnable = new DisplayRunnable(this.vService);
+		this.updateRunnable = new UpdateRunnable(this.vService);
 
 		// A Runnable is held by a Thread which manage lifecycle of the Runnable
-		displayThread = new Thread(dRunnable);
+		updateThread = new Thread(updateRunnable);
 
 		// The Thread is started and the method run() of the associated DisplayRunnable
 		// is launch
-		displayThread.start();
+		updateThread.start();
+		
+		this.interventionRunnabe = new InterventionRunnable(this.vService);
+		interventionThread = new Thread(interventionRunnabe);
+		interventionThread.start();
+		
+		
 
 	}
 
