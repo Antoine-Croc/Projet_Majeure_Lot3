@@ -18,9 +18,36 @@ import com.sp.repo.CommandCenterRepo;
 @Service
 public class CommandCenterService {
 
-	@Autowired
 	CommandCenterRepo cRepo;
+	DisplayRunnable dRunnable;
+	private Thread displayThread;
+	
+	public CommandCenterService(CommandCenterRepo hRepository) {
+		//Replace the @Autowire annotation....
+		this.cRepo=hRepository;
 
+		//Create a Runnable is charge of executing cyclic actions 
+		this.dRunnable=new DisplayRunnable();
+		
+		// A Runnable is held by a Thread which manage lifecycle of the Runnable
+		displayThread=new Thread(dRunnable);
+		
+		// The Thread is started and the method run() of the associated DisplayRunnable is launch
+		displayThread.start();
+		
+	}
+	
+	public void stopDisplay() {
+		//Call the user defined stop method of the runnable
+		this.dRunnable.stop();
+		try {
+			//force the thread to stop
+			this.displayThread.join(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public CommandCenter getStation(Integer id) {
 		Optional<CommandCenter> hOpt = cRepo.findById(id);
 		if (hOpt.isPresent()) {
@@ -30,7 +57,11 @@ public class CommandCenterService {
 		}
 	}
 	
-	public void verificationFeu() {
+	public void addCommandCenter() {
+		cRepo.save(new CommandCenter());
+	}
+	
+	public static void verificationFeu() {
 		
 		ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
 		FireDto[] fires = resp.getBody();
@@ -73,7 +104,8 @@ public class CommandCenterService {
 		}
 	
 	}
-
+	
+	
 	public static class InterventionDto{
 		int id;
 		int idFire;
