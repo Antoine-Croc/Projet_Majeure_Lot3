@@ -53,6 +53,10 @@ public class Vehicle  {
 		this.facilityRefID = vehicleDto.getFacilityRefID();
 	}
 
+	@Override
+	public String toString() {
+		return "[vehicle:"+id+", ["+lat+", "+lon+"], "+"[idDto:"+idDto+"] " +"]";
+	}
 	public double getLon() {
 		return lon;
 	}
