@@ -17,6 +17,8 @@ public class Intervention {
 	private int fireId;
 	private FireStatus status;
 	
+	public Intervention() {}
+	
 	public Intervention(int fireId) {
 		this.vehicleL = new ArrayList<Integer>();;
 		this.status = FireStatus.New;

@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.model.dto.FireDto;
@@ -18,6 +19,7 @@ import com.sp.repo.StationRepo;
 import com.project.model.dto.Coord;
 import com.project.model.dto.VehicleDto;
 
+@Service
 public class StationService {
 	@Autowired
 	StationRepo stationRepo;

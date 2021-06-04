@@ -1,9 +1,6 @@
 package com.sp.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 import com.project.model.dto.Coord;
 import com.project.model.dto.FireType;
@@ -18,8 +15,7 @@ public class Fire {
 	private double lon;
 	private double lat;
 
-	public Fire() {
-	}
+	public Fire() {}
 	
 	public Fire(Integer id, String type, float intensity, float range, double lon, double lat) {
 		super();
