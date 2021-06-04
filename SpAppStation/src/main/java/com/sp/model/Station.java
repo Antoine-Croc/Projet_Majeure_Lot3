@@ -2,7 +2,7 @@ package com.sp.model;
 
 import java.util.ArrayList;
 
-
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,10 +17,12 @@ public class Station {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	@Embedded
 	private Coord coord;
 	
 	private ArrayList<Integer> vehiclesL;
 	
+	public Station() {}
 	public Station(Coord coord) {
 		this.coord = coord;
 		this.vehiclesL = new ArrayList<Integer>();
