@@ -2,9 +2,12 @@ package com.project.rest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,13 +24,15 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.project.service.RunnableMng;
+import com.project.service.VehicleService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.Vehicle;
+import com.project.model.VehicleIntervention;
+import com.project.model.dto.Coord;
 import com.project.model.dto.VehicleDto;
-import com.project.service.RunnableMng;
-import com.project.service.VehicleService;
 
 @RestController
 public class VehicleRestCtrl {
@@ -199,6 +204,44 @@ public class VehicleRestCtrl {
 
 	}
 	
+	/*
+	 * Put mettre a jour la liste qui contient les vehicules en intervention
+	 */
+	@CrossOrigin
+	@RequestMapping(method=RequestMethod.PUT,value="/vehicles/{idVehicle}")
+	public List<ArrayList<Double>> getIntervention(@PathVariable int idVehicle, @RequestParam double lon,@RequestParam double lat) {
+		//vService.MAJ(idI,lon,lat);
+		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
+		
+		Vehicle vehicle = vService.getVehicleById(idVehicle);
+		if(vehicle != null) {
+			//si le vehicle est deja en intervention
+			if(vehicle.isIntervention()) {
+				//faire qqc
+			}
+			
+			//sinon on l'ajoute dans la liste d'intervention
+			else {
+				vehicle.setIntervention(true);
+				vehicleIntervention.listIntervention.add(
+						new ArrayList<Double>(Arrays.asList((double)idVehicle,lat,lon))
+						);
+				
+				}
+		}
+		return vehicleIntervention.listIntervention;
+		
+	}
+	
+	@CrossOrigin
+	@RequestMapping(method=RequestMethod.GET,value="/vehicles/interventions")
+	public List<ArrayList<Double>> getListIntervention(){
+		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
+		return vehicleIntervention.listIntervention;
+	}
+	
+	//TODO verifier pour tous les vehicules en intervention  si ils sont bien à la destination
+
 	public static class RouteBean {
 		List<ArrayList<Float>> coordinates;
 		String type;
