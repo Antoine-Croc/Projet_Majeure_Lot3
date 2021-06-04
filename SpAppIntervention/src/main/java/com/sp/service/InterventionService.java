@@ -50,13 +50,16 @@ public class InterventionService {
 	
 	public void addVehicle(Intervention intervention, int idV) {
 		intervention.getVehicleL().add(idV);
+		interventionRepo.save(intervention);
 	}
 	
 	public void removeVehicle(Intervention intervention, int idV) {
 		intervention.getVehicleL().remove(idV);
+		interventionRepo.save(intervention);
 	}
 	
 	public void modifyStatus(Intervention intervention, FireStatus status) {
 		intervention.setFireStatus(status);
+		interventionRepo.save(intervention);
 	}
 }

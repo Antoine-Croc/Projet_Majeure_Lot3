@@ -18,9 +18,36 @@ import com.sp.repo.CommandCenterRepo;
 @Service
 public class CommandCenterService {
 
-	@Autowired
 	CommandCenterRepo cRepo;
+	DisplayRunnable dRunnable;
+	private Thread displayThread;
+	
+	public CommandCenterService(CommandCenterRepo hRepository) {
+		//Replace the @Autowire annotation....
+		this.cRepo=hRepository;
 
+		//Create a Runnable is charge of executing cyclic actions 
+		this.dRunnable=new DisplayRunnable();
+		
+		// A Runnable is held by a Thread which manage lifecycle of the Runnable
+		displayThread=new Thread(dRunnable);
+		
+		// The Thread is started and the method run() of the associated DisplayRunnable is launch
+		displayThread.start();
+		
+	}
+	
+	public void stopDisplay() {
+		//Call the user defined stop method of the runnable
+		this.dRunnable.stop();
+		try {
+			//force the thread to stop
+			this.displayThread.join(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public CommandCenter getStation(Integer id) {
 		Optional<CommandCenter> hOpt = cRepo.findById(id);
 		if (hOpt.isPresent()) {
@@ -30,11 +57,15 @@ public class CommandCenterService {
 		}
 	}
 	
-	public void verificationFeu() {
+	public void addCommandCenter() {
+		cRepo.save(new CommandCenter());
+	}
+	
+	public static void verificationFeu() {
 		
 		ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
 		FireDto[] fires = resp.getBody();
-		ResponseEntity<InterventionDto[]> result = new RestTemplate().getForEntity("http://localhost:8082/interventions", InterventionDto[].class);
+		ResponseEntity<InterventionDto[]> result = new RestTemplate().getForEntity("http://localhost:8086/interventions", InterventionDto[].class);
 		InterventionDto[] interventions = result.getBody();
 		
 		for (FireDto fire : fires) {
@@ -48,17 +79,22 @@ public class CommandCenterService {
 			while (newFire && !ret) {
 				Coord casernProche = new Coord(10,10);
 				int idCasernProche = 110;   
-				ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8082/stations", StationDto[].class);
+				ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8085/stations", StationDto[].class);
 				StationDto[] stations = resultat.getBody();
 				for (StationDto station: stations) {
-					if ((caserneDejaTest != station.getId()) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getcoordDeLaBase().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getcoordDeLaBase().getLon()- fire.getLon()))))) {
+					System.out.println("tourX ---- ");
+					System.out.println(station.getId());
+					System.out.println(casernProche.getLat());
+					//System.out.println(fire.getLat());
+					//System.out.println(station.getcoordDeLaBase().getLat());
+					/*if ((caserneDejaTest != station.getId()) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getcoordDeLaBase().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getcoordDeLaBase().getLon()- fire.getLon()))))) {
 						casernProche.setLat(station.getcoordDeLaBase().getLat());
 						casernProche.setLon(station.getcoordDeLaBase().getLon());
 						idCasernProche = station.getId();
-					}
+					}*/
 				}
 				//TODO Faire un post 
-				String url = "https://localhost:8082/stations/"+idCasernProche;
+				String url = "https://localhost:8085/stations/"+idCasernProche;
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 				url=url+"?idfire="+fire.getId();
@@ -73,7 +109,8 @@ public class CommandCenterService {
 		}
 	
 	}
-
+	
+	
 	public static class InterventionDto{
 		int id;
 		int idFire;

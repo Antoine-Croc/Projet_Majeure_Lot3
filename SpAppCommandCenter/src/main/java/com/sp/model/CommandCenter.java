@@ -19,4 +19,11 @@ public class CommandCenter {
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return "C'est beau [id=" + id + "]";
+	}
+	
+	
 }

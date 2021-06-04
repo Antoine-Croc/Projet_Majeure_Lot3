@@ -56,11 +56,13 @@ public class StationService {
 	}
 	
 	public void addVehicle(Station station, int idV) {
-		station.getVehiclesL().add(idV);		
+		station.getVehiclesL().add(idV);
+		stationRepo.save(station);
 	}
 	
 	public void removeVehicle(Station station, int idV) {
 		station.getVehiclesL().remove(idV);
+		stationRepo.save(station);
 	}
 	
 	public String findGoodTruck(int id, int idFire) {

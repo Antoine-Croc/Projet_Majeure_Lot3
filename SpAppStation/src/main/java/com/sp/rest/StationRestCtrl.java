@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ import com.project.model.dto.Coord;
 import com.sp.model.Station;
 import com.sp.service.StationService;
 
-
+@CrossOrigin
 @RestController
 public class StationRestCtrl {
 
@@ -45,13 +46,14 @@ public class StationRestCtrl {
 		return sService.findGoodTruck(idS, idFire);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}/Vehicles")
+	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}/vehicles")
 	public void addVehicleId(@RequestParam int idV, @PathVariable int idS) {
 		Station s = sService.getStation(idS);
 		sService.addVehicle(s, idV);
+		
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE,value="/stations/{idS}/Vehicles/{idV}")
+	@RequestMapping(method=RequestMethod.DELETE,value="/stations/{idS}/vehicles/{idV}")
 	public void removeVehicleId(@PathVariable int idS, @PathVariable int idV) {
 		Station s = sService.getStation(idS);
 		sService.removeVehicle(s, idV);
