@@ -68,6 +68,7 @@ public class StationService {
 	public String findGoodTruck(int id, int idFire) {
 		String ret = "KO"; 
 		Station stationTest = getStation(id);
+	System.out.println("http://localhost:8081/fire/"+idFire+" --------------------------------------------");
 		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8081/fire/"+idFire, FireDto.class);
 		for (Integer idV : stationTest.getVehiclesL()) {
 			ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8081/vehicle/"+idV, VehicleDto.class);

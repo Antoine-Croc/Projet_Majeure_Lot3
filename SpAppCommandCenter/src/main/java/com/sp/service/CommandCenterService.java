@@ -81,23 +81,19 @@ public class CommandCenterService {
 				int idCasernProche = 110;   
 				ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8085/stations", StationDto[].class);
 				StationDto[] stations = resultat.getBody();
+				System.out.println(stations.toString());
 				for (StationDto station: stations) {
-					System.out.println("tourX ---- ");
-					System.out.println(station.getId());
-					System.out.println(casernProche.getLat());
-					//System.out.println(fire.getLat());
-					//System.out.println(station.getcoordDeLaBase().getLat());
-					/*if ((caserneDejaTest != station.getId()) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getcoordDeLaBase().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getcoordDeLaBase().getLon()- fire.getLon()))))) {
-						casernProche.setLat(station.getcoordDeLaBase().getLat());
-						casernProche.setLon(station.getcoordDeLaBase().getLon());
+					if ((caserneDejaTest != station.getId()) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getCoord().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getCoord().getLon()- fire.getLon()))))) {
+						casernProche.setLat(station.getCoord().getLat());
+						casernProche.setLon(station.getCoord().getLon());
 						idCasernProche = station.getId();
-					}*/
+					}
 				}
 				//TODO Faire un post 
-				String url = "https://localhost:8085/stations/"+idCasernProche;
+				String url = "http://localhost:8085/stations/"+idCasernProche;
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-				url=url+"?idfire="+fire.getId();
+				url=url+"?idFire="+fire.getId();
 				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
 				
 				
@@ -127,16 +123,16 @@ public class CommandCenterService {
 	
 	public static class StationDto{
 		int id;
-		Coord coordDeLaBase;
+		Coord coord;
 		
 		public StationDto() {}
 		
-		public Coord getcoordDeLaBase() {
-			return coordDeLaBase;
+		public Coord getCoord() {
+			return coord;
 		}
 		
-		public void setIdFire(Coord coordDeLaBase) {
-			this.coordDeLaBase = coordDeLaBase;
+		public void setCoord(Coord coord) {
+			this.coord = coord;
 		}
 		
 		public int getId() {
@@ -145,6 +141,10 @@ public class CommandCenterService {
 		
 		public void setId(int id) {
 			this.id = id;
+		}
+		@Override
+		public String toString() {
+			return "Station : "+id+" --- "+coord;
 		}
 	}
 }
