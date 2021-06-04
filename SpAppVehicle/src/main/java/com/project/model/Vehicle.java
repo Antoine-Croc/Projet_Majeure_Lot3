@@ -30,7 +30,10 @@ public class Vehicle  {
 	private int crewMember;
 	private int crewMemberCapacity;
 	private Integer facilityRefID;
+	private boolean isIntervention = false;
 	
+
+
 	public Vehicle() {
 		crewMember= CREW_MEMBER_START_VALUE;
 		liquidType=LiquidType.ALL;
@@ -167,6 +170,14 @@ public class Vehicle  {
 
 	public void setIdDto(Integer idDto) {
 		this.idDto = idDto;
+	}
+	
+	public boolean isIntervention() {
+		return isIntervention;
+	}
+
+	public void setIntervention(boolean isIntervention) {
+		this.isIntervention = isIntervention;
 	}
 	
 

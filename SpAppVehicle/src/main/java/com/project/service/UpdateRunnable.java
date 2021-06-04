@@ -1,14 +1,12 @@
 package com.project.service;
 
 
-
-
-public class DisplayRunnable implements Runnable {
+public class UpdateRunnable implements Runnable {
 
 	private VehicleService vService;
 	boolean isEnd = false;
 
-	public DisplayRunnable(VehicleService vService) {
+	public UpdateRunnable(VehicleService vService) {
 		this.vService=vService;
 	}
 
@@ -20,13 +18,14 @@ public class DisplayRunnable implements Runnable {
 				//synchroniser le local repository et le FireSimulator
 				String urlSimulator = "http://localhost:8081/vehicle";
 				this.vService.updateLocalRepository(urlSimulator);
+				this.vService.VehiclePositionIsFinal();
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		System.out.println("Runnable DisplayRunnable ends.... ");
+		System.out.println("Runnable UpdateRunnable ends.... ");
 	}
 
 	public void stop() {
