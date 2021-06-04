@@ -1,15 +1,15 @@
 package com.project.service;
 
-import com.project.model.Vehicle;
-import com.project.repository.VehicleRepository;
+
+
 
 public class DisplayRunnable implements Runnable {
 
-	private VehicleRepository hrepo;
+	private VehicleService vService;
 	boolean isEnd = false;
 
-	public DisplayRunnable(VehicleRepository hrepo) {
-		this.hrepo = hrepo;
+	public DisplayRunnable(VehicleService vService) {
+		this.vService=vService;
 	}
 
 	@Override
@@ -17,7 +17,9 @@ public class DisplayRunnable implements Runnable {
 		while (!this.isEnd) {
 			try {
 				Thread.sleep(10000);
-				//TODO update repository
+				//synchroniser le local repository et le FireSimulator
+				String urlSimulator = "http://localhost:8081/vehicle";
+				this.vService.updateLocalRepository(urlSimulator);
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -30,5 +32,12 @@ public class DisplayRunnable implements Runnable {
 	public void stop() {
 		this.isEnd = true;
 	}
+	
+	
+	
+	
+
+	
+
 
 }
