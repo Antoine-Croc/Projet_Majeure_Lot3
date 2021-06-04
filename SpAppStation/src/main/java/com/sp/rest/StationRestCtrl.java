@@ -18,7 +18,6 @@ import com.project.model.dto.Coord;
 import com.sp.model.Station;
 import com.sp.service.StationService;
 
-@CrossOrigin
 @RestController
 public class StationRestCtrl {
 
