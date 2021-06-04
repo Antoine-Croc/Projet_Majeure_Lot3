@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.sp.model.FireStatus;
 import com.sp.model.Intervention;
 import com.sp.repo.InterventionRepo;
 
+@Service
 public class InterventionService {
 	@Autowired
 	InterventionRepo interventionRepo;
@@ -57,5 +59,4 @@ public class InterventionService {
 	public void modifyStatus(Intervention intervention, FireStatus status) {
 		intervention.setFireStatus(status);
 	}
-	///TODO doit-on integer VehicleDto?
 }
