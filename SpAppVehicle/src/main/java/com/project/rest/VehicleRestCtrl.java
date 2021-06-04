@@ -1,23 +1,35 @@
 package com.project.rest;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.service.VehicleService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.Vehicle;
+import com.project.model.dto.Coord;
 import com.project.model.dto.VehicleDto;
 
 
@@ -130,6 +142,84 @@ public class VehicleRestCtrl {
 	}
 	
 	
+	/*
+	 * Get un tableau de coordonnées qu'on utilise pour diriger le  vehicle 
+	 *[[45.766994, 4.831062], [45.767246, 4.830966], [45.767002, 4.830155]]
+	 */
+	@CrossOrigin
+	@RequestMapping(method=RequestMethod.GET, value = "/route/{latInit}/{lonInit}/{latFinal}/{lonFinal}")
+	public List<ArrayList<Float>> getRoute(@PathVariable String lonInit, @PathVariable String latInit,
+				@PathVariable String lonFinal,@PathVariable String latFinal) throws JsonParseException, IOException {
+
+		String access_token = "pk.eyJ1IjoidXV1dWlpaWkiLCJhIjoiY2twZjZrYzA4MjM0ODJ5b2dtOHBscmgwNSJ9.k_fmJIDMSqhk58fursNr2A";
+		
+		String MapBoxApi = "https://api.mapbox.com/directions/v5/mapbox/driving/"
+				+ lonInit+","+ latInit+ ";"+ lonFinal +","+ latFinal
+				+ "?alternatives=true&geometries=geojson&steps=false&access_token="
+				+access_token;
+		List<ArrayList<Float>> coords =null;
+	    List<ArrayList<Float>> listTemp = new ArrayList<ArrayList<Float>>();
+	    Float temp;
+		RestTemplate restTemplate = new RestTemplate();
+		
+		try{
+			//faire la requete vers MapBoxApi
+			ResponseEntity<String> responseEntity =restTemplate.getForEntity(MapBoxApi, String.class);
+			String jsonString = responseEntity.getBody();
+
+			
+			//convertir le string obtenu dans la classe RouteBean
+			ObjectMapper mapper = new ObjectMapper();
+		    JsonNode tree = mapper.readTree(jsonString);
+		    List<JsonNode> geometryList = tree.findValues("geometry");
+		    JsonNode geometry = geometryList.get(0);
+
+		    RouteBean routeBean = mapper.convertValue(geometry, RouteBean.class);
+		   		    
+		    coords = routeBean.getCoordinates();
+		  
+			 //permuter [lon,lat] en [lat,lon]
+		    for (ArrayList<Float> list : coords) {
+		    	temp = list.get(1);
+		    	list.set(1, list.get(0));
+		    	list.set(0, temp);
+		    	listTemp.add(list);
+		    }
+		    coords=listTemp;
+		   
+		  }
+		catch(RestClientException e){
+		     //process exception
+		     if(e instanceof HttpStatusCodeException){
+		         String errorResponse=((HttpStatusCodeException)e).getResponseBodyAsString();
+		         System.out.println("------------------"+errorResponse);
+		        
+		     }
+
+		  }
+		
+		System.out.println(coords);
+		 return coords;
+		
+		
+	}
+	
+	public static class RouteBean{
+		List<ArrayList<Float>> coordinates;
+		String type;
+		public RouteBean() {}
+		public List<ArrayList<Float>> getCoordinates() {return coordinates;}
+		public void setCoordinates(List<ArrayList<Float>> l) {this.coordinates=l;}
+		public void setType(String s) {this.type=s;}
+		@Override
+		public String toString() {
+			return this.coordinates.toString() +this.type;
+		}
+	}
+
+	
+	
+
 	
 	
 	/*
@@ -165,6 +255,7 @@ public class VehicleRestCtrl {
 		
 		}
 	
+
 	/*
 	 * mettre a jour le local repository (le vehicle avec id ) en consultant le FireSimulator
 	 */
@@ -203,9 +294,6 @@ public class VehicleRestCtrl {
 		return vehicle;
 	}
 	
-	
-	
-	
-	
+
 
 }
