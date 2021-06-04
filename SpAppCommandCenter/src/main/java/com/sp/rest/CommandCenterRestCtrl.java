@@ -22,6 +22,11 @@ public class CommandCenterRestCtrl {
 		return cService.getStation(idS);
 	}
 	
+	@RequestMapping(method=RequestMethod.POST,value="/CommandCenters")
+	public void addCommandCenters() {
+		cService.addCommandCenter();
+	}
+	
 	@RequestMapping(method=RequestMethod.GET,value="/CommandCenters")
 	public void getStation() {
 		cService.verificationFeu();
