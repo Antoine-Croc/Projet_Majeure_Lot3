@@ -28,7 +28,6 @@ import com.project.model.Vehicle;
 import com.project.model.dto.VehicleDto;
 import com.project.service.RunnableMng;
 import com.project.service.VehicleService;
-import com.sp.model.Intervention;
 
 @RestController
 public class VehicleRestCtrl {
@@ -200,10 +199,6 @@ public class VehicleRestCtrl {
 
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT,value="/vehicles/{idV}")
-	public void getIntervention(@PathVariable int idI, @RequestParam float lon,@RequestParam float lat) {
-		vService.MAJ(idI,lon,lat);
-	}
 	public static class RouteBean {
 		List<ArrayList<Float>> coordinates;
 		String type;

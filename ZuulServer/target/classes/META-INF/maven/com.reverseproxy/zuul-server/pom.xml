@@ -12,7 +12,7 @@
 	<artifactId>zuul-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>zuul-server</name>
-	<description>Reverse Proxy pour le serveur web de l'application d'ASI</description>
+	<description>Reverse Proxy</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Hoxton.SR11</spring-cloud.version>
