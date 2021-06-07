@@ -5,12 +5,12 @@ import java.util.List;
 
 public class VehicleIntervention
 {
-	public List<ArrayList<Double>> listIntervention;
+	public List<InterventionDto> listIntervention;
 	
     /** Constructeur privé */
     private VehicleIntervention()
     {
-    	this.listIntervention = new ArrayList<ArrayList<Double>>();
+    	this.listIntervention = new ArrayList<InterventionDto>();
     }
      
     /** Instance unique non préinitialisée */
@@ -24,5 +24,7 @@ public class VehicleIntervention
         }
         return INSTANCE;
     }
+    
+    
     
 }

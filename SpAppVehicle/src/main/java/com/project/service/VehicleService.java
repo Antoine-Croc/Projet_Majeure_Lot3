@@ -19,6 +19,7 @@ import com.project.model.VehicleIntervention;
 import com.project.model.dto.VehicleDto;
 import com.project.repository.VehicleRepository;
 import com.project.rest.VehicleRestCtrl.RouteBean;
+import com.project.model.InterventionDto;
 
 @Service
 public class VehicleService {
@@ -132,10 +133,10 @@ public class VehicleService {
 		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
 		if( ! vehicleIntervention.listIntervention.isEmpty()) {
 			//parcourir toutes les interventions
-			 for( ArrayList<Double> intervention: vehicleIntervention.listIntervention) {
-				  idVehicle = intervention.get(0).intValue();
-				  lat = intervention.get(1);
-				  lon = intervention.get(2);
+			 for( InterventionDto intervention: vehicleIntervention.listIntervention) {
+				  idVehicle = intervention.getVehicle().getId();
+				  lat = intervention.getFireLat();
+				  lon = intervention.getFireLon();
 				  vehicle = getVehicleById(idVehicle);
 				  //si le vehicule arrive a proximite et l'intensite du fire est nulle 
 				  

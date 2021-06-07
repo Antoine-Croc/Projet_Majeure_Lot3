@@ -29,6 +29,7 @@ import com.project.service.VehicleService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.model.InterventionDto;
 import com.project.model.Vehicle;
 import com.project.model.VehicleIntervention;
 import com.project.model.dto.Coord;
@@ -279,7 +280,7 @@ public class VehicleRestCtrl {
 	 */
 	@CrossOrigin
 	@RequestMapping(value="/vehicles/{idVehicle}/coord", method=RequestMethod.POST)
-	public List<ArrayList<Double>> getIntervention(@PathVariable int idVehicle, @RequestParam double lon,@RequestParam double lat) {
+	public List<InterventionDto> getIntervention(@PathVariable int idVehicle, @RequestParam double lon,@RequestParam double lat) {
 		//vService.MAJ(idI,lon,lat);
 		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
 	
@@ -295,11 +296,8 @@ public class VehicleRestCtrl {
 				vehicle.setIntervention(true);
 				//save
 				vService.addVehicle(vehicle);
-				
 				//System.out.println("-------------------------"+vService.getVehicleById(idVehicle).isIntervention());
-				vehicleIntervention.listIntervention.add(
-						new ArrayList<Double>(Arrays.asList((double)idVehicle,vehicle.getLat(),vehicle.getLon(),lat,lon))
-						);
+				vehicleIntervention.listIntervention.add(new InterventionDto(vehicle,lat,lon));
 				
 				}
 		}
@@ -314,7 +312,7 @@ public class VehicleRestCtrl {
 	 */
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.GET,value="/vehicles/interventions")
-	public List<ArrayList<Double>> getListIntervention(){
+	public List<InterventionDto> getListIntervention(){
 		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
 		return vehicleIntervention.listIntervention;
 	}
