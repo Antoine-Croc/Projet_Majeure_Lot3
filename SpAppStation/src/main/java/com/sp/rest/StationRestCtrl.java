@@ -23,29 +23,36 @@ public class StationRestCtrl {
 
 	@Autowired
 	private StationService sService;
-
+	
+	@CrossOrigin
 	@RequestMapping(method=RequestMethod.GET,value="/stations/{idS}")
 	public Station getStation(@PathVariable int idS) {
 		Station s = sService.getStation(idS);
 		return s;
 	}
+	
+	@CrossOrigin
 	@RequestMapping(method=RequestMethod.GET, value="/stations")
 	public List<Station> getAllStation(){
 		return sService.getAllStation();
 	}
 	
+	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/stations",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
 	public void addStation(@RequestBody Coord coord) {
 		Station s = new Station(coord);
 		sService.addStation(s);
 	}
 	
+	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}")
 	public String findGoodTruck(@PathVariable int idS, @RequestParam int idFire) {
 		System.out.println(idS+" ------------------ "+idFire);
 		return sService.findGoodTruck(idS, idFire);
 	}
+	
 	// Faire un put 
+	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}/vehicles")
 	public void addVehicleId(@RequestParam int idV, @PathVariable int idS) {
 		Station s = sService.getStation(idS);
@@ -53,6 +60,7 @@ public class StationRestCtrl {
 		
 	}
 	
+	@CrossOrigin
 	@RequestMapping(method=RequestMethod.DELETE,value="/stations/{idS}/vehicles/{idV}")
 	public void removeVehicleId(@PathVariable int idS, @PathVariable int idV) {
 		Station s = sService.getStation(idS);
