@@ -158,6 +158,51 @@ public class VehicleRestCtrl {
 		String operation = response.getBody();
 		System.out.println("operation delete:" + operation);
 	}
+	
+	/*
+	 * check fuel
+	 */
+	@CrossOrigin
+	@RequestMapping(method=RequestMethod.GET, value = "/vehicles/{id}/route/{latInit}/{lonInit}/{latFinal}/{lonFinal}")
+	public boolean isRoutePossibleById(@PathVariable String lonInit, @PathVariable String latInit,
+			@PathVariable String lonFinal, @PathVariable String latFinal,@PathVariable String id) throws JsonParseException, IOException {
+		boolean result = false;
+		float distance = 0;
+		Vehicle vehicle = vService.getVehicleById(Integer.valueOf(id));
+		try {
+			String jsonString = vService.getRoute( lonInit,  latInit, lonFinal, latFinal);
+
+			// convertir le string obtenu dans la classe RouteBean
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode tree = mapper.readTree(jsonString);
+
+			List<JsonNode>  distanceList = tree.findValues("distance");
+			JsonNode jsonDistance = distanceList.get(0);
+			 distance = mapper.convertValue(jsonDistance, Float.class);
+			 //si le fuel du vehicule est suffisant
+ 			float calcul =  Math.abs(  vehicle.getFuel() - 2*((float)(distance/1000)*vehicle.getFuelConsumption()) );
+
+			 if(  calcul >= 1e-1 ) {
+				 result = true;
+				vehicle.setFuel(vehicle.getFuel()-calcul);
+				vService.addVehicle(vehicle);
+			 }
+				 
+			 
+			 
+			
+		}catch (RestClientException e) {
+			// process exception
+			if (e instanceof HttpStatusCodeException) {
+				String errorResponse = ((HttpStatusCodeException) e).getResponseBodyAsString();
+				System.out.println("------------------" + errorResponse);
+
+				}
+			}
+		
+		return result;
+	}
+	
 
 	/*
 	 * Get un tableau de coordonnées qu'on utilise pour diriger le vehicle
@@ -168,24 +213,18 @@ public class VehicleRestCtrl {
 	public List<ArrayList<Float>> getRoute(@PathVariable String lonInit, @PathVariable String latInit,
 			@PathVariable String lonFinal, @PathVariable String latFinal) throws JsonParseException, IOException {
 
-		String access_token = "pk.eyJ1IjoidXV1dWlpaWkiLCJhIjoiY2twZjZrYzA4MjM0ODJ5b2dtOHBscmgwNSJ9.k_fmJIDMSqhk58fursNr2A";
-
-		String MapBoxApi = "https://api.mapbox.com/directions/v5/mapbox/driving/" + lonInit + "," + latInit + ";"
-				+ lonFinal + "," + latFinal + "?alternatives=true&geometries=geojson&steps=false&access_token="
-				+ access_token;
 		List<ArrayList<Float>> coords = null;
 		List<ArrayList<Float>> listTemp = new ArrayList<ArrayList<Float>>();
 		Float temp;
-		RestTemplate restTemplate = new RestTemplate();
+	
 
 		try {
-			// faire la requete vers MapBoxApi
-			ResponseEntity<String> responseEntity = restTemplate.getForEntity(MapBoxApi, String.class);
-			String jsonString = responseEntity.getBody();
-
+	
+			String jsonString = vService.getRoute( lonInit,  latInit, lonFinal, latFinal);
 			// convertir le string obtenu dans la classe RouteBean
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode tree = mapper.readTree(jsonString);
+
 			List<JsonNode> geometryList = tree.findValues("geometry");
 			JsonNode geometry = geometryList.get(0);
 
@@ -259,7 +298,7 @@ public class VehicleRestCtrl {
 				
 				//System.out.println("-------------------------"+vService.getVehicleById(idVehicle).isIntervention());
 				vehicleIntervention.listIntervention.add(
-						new ArrayList<Double>(Arrays.asList((double)idVehicle,lat,lon))
+						new ArrayList<Double>(Arrays.asList((double)idVehicle,vehicle.getLat(),vehicle.getLon(),lat,lon))
 						);
 				
 				}

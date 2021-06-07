@@ -8,12 +8,17 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.Vehicle;
 import com.project.model.VehicleIntervention;
 import com.project.model.dto.VehicleDto;
 import com.project.repository.VehicleRepository;
+import com.project.rest.VehicleRestCtrl.RouteBean;
 
 @Service
 public class VehicleService {
@@ -166,5 +171,35 @@ public class VehicleService {
 		
 	}
 	
+	/*
+	 * Get requete vers API MapBox
+	 */
+	public String getRoute(String lonInit, String latInit,String lonFinal,String latFinal) {
+		String jsonString = null;
+		String access_token = "pk.eyJ1IjoidXV1dWlpaWkiLCJhIjoiY2twZjZrYzA4MjM0ODJ5b2dtOHBscmgwNSJ9.k_fmJIDMSqhk58fursNr2A";
+
+		String MapBoxApi = "https://api.mapbox.com/directions/v5/mapbox/driving/" + lonInit + "," + latInit + ";"
+				+ lonFinal + "," + latFinal + "?alternatives=true&geometries=geojson&steps=false&access_token="
+				+ access_token;
+		
+		RestTemplate restTemplate = new RestTemplate();
+
+		try {
+			// faire la requete vers MapBoxApi
+			ResponseEntity<String> responseEntity = restTemplate.getForEntity(MapBoxApi, String.class);
+			 jsonString = responseEntity.getBody();
+
+
+		} catch (RestClientException e) {
+			// process exception
+			if (e instanceof HttpStatusCodeException) {
+				String errorResponse = ((HttpStatusCodeException) e).getResponseBodyAsString();
+				System.out.println("------------------" + errorResponse);
+
+				}
+
+			}
+		return jsonString;
+		}
 
 }
