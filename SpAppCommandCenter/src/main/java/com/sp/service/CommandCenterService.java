@@ -1,8 +1,9 @@
 package com.sp.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -71,7 +72,7 @@ public class CommandCenterService {
 		for (FireDto fire : fires) {
 			boolean newFire = true;
 			boolean ret = false;
-			int caserneDejaTest = 0;
+			List<Integer> caserneDejaTest = new ArrayList<Integer>();
 			
 			for(InterventionDto intervention : interventions) {
 				System.out.println(fire.getId()+" =========== "+intervention.getIdFire());
@@ -84,13 +85,13 @@ public class CommandCenterService {
 				StationDto[] stations = resultat.getBody();
 				System.out.println(stations.toString());
 				for (StationDto station: stations) {
-					if ((caserneDejaTest != station.getId()) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getCoord().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getCoord().getLon()- fire.getLon()))))) {
+					if (!(caserneDejaTest.contains(station.getId())) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getCoord().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getCoord().getLon()- fire.getLon()))))) {
 						casernProche.setLat(station.getCoord().getLat());
 						casernProche.setLon(station.getCoord().getLon());
 						idCasernProche = station.getId();
 					}
 				}
-				//TODO Faire un post 
+
 				String url = "http://localhost:8085/stations/"+idCasernProche;
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -101,7 +102,7 @@ public class CommandCenterService {
 				ResponseEntity<String> retourStation = new RestTemplate().postForEntity( url, request , String.class );
 				System.out.println(retourStation.getBody());
 				if(retourStation.getBody().equals("OK")) ret = true;
-				else caserneDejaTest = idCasernProche;
+				else caserneDejaTest.add(idCasernProche);
 			}
 		}
 	
