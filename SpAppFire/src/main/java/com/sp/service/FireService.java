@@ -46,7 +46,9 @@ public class FireService {
 	public void modifyIntensity(Fire f, float i) {
 		f.setIntensity(i);
 	}
-	
+	public float getIntensity(int id) {
+		return getFire(id).getIntensity();
+	}
 	public void updateFire() {
 		ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
 		FireDto[] fires = resp.getBody();

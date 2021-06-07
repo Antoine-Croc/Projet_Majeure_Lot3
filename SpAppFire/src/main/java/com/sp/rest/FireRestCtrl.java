@@ -36,6 +36,11 @@ public class FireRestCtrl {
 		return f;
 	}
 	
+	@RequestMapping(method=RequestMethod.GET,value="/fires/{idF}/intensity")
+	public float getFireIntensity(@PathVariable int idF) {
+		return fService.getIntensity(idF);
+	}
+	
 	@RequestMapping(method=RequestMethod.GET, value="/fires")
 	public List<Fire> getFires(){
 		return fService.getAllFire();
