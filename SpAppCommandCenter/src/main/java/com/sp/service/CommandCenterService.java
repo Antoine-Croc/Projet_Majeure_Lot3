@@ -96,8 +96,8 @@ public class CommandCenterService {
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 				url=url+"?idFire="+fire.getId();
 				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
-				
-				
+			
+System.out.println("idCasernProche = "+idCasernProche);
 				ResponseEntity<String> retourStation = new RestTemplate().postForEntity( url, request , String.class );
 				System.out.println(retourStation.getBody());
 				if(retourStation.getBody().equals("OK")) ret = true;

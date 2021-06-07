@@ -36,7 +36,6 @@ public class VehicleService {
 		} else {
 			return null;
 		}
-
 	}
 
 	public Vehicle getVehicleByIdDto(Integer id) {
