@@ -204,28 +204,9 @@ public class VehicleRestCtrl {
 		return coords;
 
 	}
+	
 
-	/*
-	 * Put mettre a jour la liste qui contient les vehicules en intervention
-	 */
-//	@CrossOrigin
-//	@RequestMapping(method=RequestMethod.POST, value="/vehicles/{idVehicle}", consumes = { MediaType.APPLICATION_JSON_VALUE,
-//			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-//					MediaType.APPLICATION_XML_VALUE })
-//	@ResponseBody
-//	public void getIntervention(@PathVariable("idVehicle") int idVehicle) {
-//		System.out.println("Ca fonctionne");
-//	}
-	
-//	@RequestMapping(value="/vehicles/{idVehicle}/coord", method=RequestMethod.POST)
-//	public boolean test(@PathVariable int idVehicle) {
-//		return true;
-//	}
-	
-	
-	/*
-	 * Put mettre a jour la liste qui contient les vehicules en intervention
-	 */
+
 	@CrossOrigin
 	@RequestMapping(value="/vehicles/{idVehicle}/coord", method=RequestMethod.POST)
 	public List<ArrayList<Double>> getIntervention(@PathVariable int idVehicle, @RequestParam double lon,@RequestParam double lat) {
@@ -259,7 +240,7 @@ public class VehicleRestCtrl {
 		return vehicleIntervention.listIntervention;
 	}
 	
-	//TODO verifier pour tous les vehicules en intervention  si ils sont bien à la destination
+
 
 	public static class RouteBean {
 		List<ArrayList<Float>> coordinates;
