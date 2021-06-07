@@ -135,7 +135,7 @@ public class VehicleRestCtrl {
 		// get response( true / false)
 		String operation = response.getBody();
 		System.out.println("operation update:" + operation);
-		System.out.println("vehicle4bd9d7c9a5a1c27aa5112d16f9e7fd03c4bb4dc2: idDto= " + vehicleDto.getId() +", position: "+vehicleDto.getLat() + ":"+vehicleDto.getLon() );
+		System.out.println("vehicle id= " + vehicle.getId() +", position: "+vehicle.getLat() + ":"+vehicle.getLon() );
 
 	}
 

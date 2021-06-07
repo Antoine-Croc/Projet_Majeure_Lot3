@@ -167,7 +167,7 @@ public class VehicleService {
 			result = true;
 		}
 		
-		System.out.println("Fire at"+lat+":"+lon +"intensity: "+intensity);
+		System.out.println("Fire at "+lat+":"+lon +", intensity: "+intensity);
 		return result;
 		
 	}
