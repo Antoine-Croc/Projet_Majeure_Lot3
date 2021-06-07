@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.project.model.dto.Coord;
 import com.project.model.dto.FireDto;
 import com.sp.model.Fire;
 import com.sp.repo.FireRepo;
@@ -49,6 +50,15 @@ public class FireService {
 	public float getIntensity(int id) {
 		return getFire(id).getIntensity();
 	}
+	
+	public float getIntensitywithCoord(Coord coord) {
+		List<Fire> listeAllFire = getAllFire();
+		for (int i=0; i < listeAllFire.size(); i++) {
+			if (listeAllFire.get(i).getLat() == coord.getLat() && listeAllFire.get(i).getLon() == coord.getLon()) return listeAllFire.get(i).getIntensity(); 
+		}
+		return 0;
+	}
+	
 	public void updateFire() {
 		ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
 		FireDto[] fires = resp.getBody();

@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.model.dto.Coord;
 import com.sp.model.Fire;
 import com.sp.service.FireService;
 
@@ -39,6 +41,10 @@ public class FireRestCtrl {
 	@RequestMapping(method=RequestMethod.GET,value="/fires/{idF}/intensity")
 	public float getFireIntensity(@PathVariable int idF) {
 		return fService.getIntensity(idF);
+	}
+	@RequestMapping(method=RequestMethod.GET,value="/fires/intensity")
+	public float getFireIntensityByCoord(@RequestParam Coord coord) {
+		return fService.getIntensitywithCoord(coord);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/fires")

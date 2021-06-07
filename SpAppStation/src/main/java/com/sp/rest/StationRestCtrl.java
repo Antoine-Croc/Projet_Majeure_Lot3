@@ -42,6 +42,7 @@ public class StationRestCtrl {
 	
 	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}")
 	public String findGoodTruck(@PathVariable int idS, @RequestParam int idFire) {
+		System.out.println(idS+" ------------------ "+idFire);
 		return sService.findGoodTruck(idS, idFire);
 	}
 	// Faire un put 

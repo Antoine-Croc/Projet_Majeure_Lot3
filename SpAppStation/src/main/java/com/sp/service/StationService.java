@@ -71,23 +71,23 @@ public class StationService {
 		System.out.println(id);
 		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8083/fires/"+idFire, FireDto.class);
 		for (Integer idV : stationTest.getVehiclesL()) {
-			
 			ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
 			VehicleDto vehicleTest = vehicleTestTemp.getBody();
+			int idVehicule = vehicleTest.getId();
+			System.out.println(vehicleTest.toString() + " - -  -------------------- "+ idVehicule);
 			if (vehicleTest.getLiquidType().toString().equals("ALL") ) {
-				String url = "http://localhost:8086/interventions/"+"?idF="+idFire+"&idV="+vehicleTest.getId();
+				String url = "http://localhost:8086/interventions/"+"?idF="+idFire+"&idV="+idVehicule;
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
 				ResponseEntity<String> retourIntervention = new RestTemplate().postForEntity( url, request , String.class );
-				System.out.println("- -------------------------------------------- http://localhost:8082/vehicles/"+vehicleTest.getId()+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat());
-				String urlv = "http://localhost:8082/vehicles/"+vehicleTest.getId()+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
+				System.out.println("- -------------------------------------------- http://localhost:8082/vehicles/"+idVehicule+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat());
+				String urlv = "http://localhost:8082/vehicles/"+idVehicule+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
 				ResponseEntity<String> retourVehicule = new RestTemplate().postForEntity( urlv, request , String.class );
 				ret = "OK";
 				break;
 			}
 		}
-		System.out.println(ret+"  --------------------  ");
 		return ret; 
 	}
 }
