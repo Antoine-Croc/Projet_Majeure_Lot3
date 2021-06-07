@@ -27,7 +27,6 @@ public class VehicleService {
 
 	public void addVehicle(Vehicle vehicle) {
 		Vehicle createdVehicle = vRepository.save(vehicle);
-
 	}
 
 	public Vehicle getVehicleById(Integer id) {
@@ -47,7 +46,6 @@ public class VehicleService {
 		} else {
 			return null;
 		}
-
 	}
 
 	public List<Vehicle> getAllVehicles() {
@@ -137,11 +135,15 @@ public class VehicleService {
 				  vehicle = getVehicleById(idVehicle);
 				  //si le vehicule arrive a proximite et l'intensite du fire est nulle 
 				  
-System.out.println("liste:"+vehicleIntervention.listIntervention);
 				  if( isFireOut(lat,lon) && Math.abs(vehicle.getLat() - lat)<1e-3 
 						  && Math.abs(vehicle.getLon() - lon)<1e-3
 						  ) {
+					  //supprimer le vehicule de la liste
 					  vehicleIntervention.listIntervention.remove(intervention);
+					  //changer son etat
+					  vehicle.setIntervention(false);
+					  vRepository.save(vehicle);
+					  
 					  System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+idVehicle);
 				  }
 			 	}

@@ -256,6 +256,8 @@ public class VehicleRestCtrl {
 				vehicle.setIntervention(true);
 				//save
 				vService.addVehicle(vehicle);
+				
+				//System.out.println("-------------------------"+vService.getVehicleById(idVehicle).isIntervention());
 				vehicleIntervention.listIntervention.add(
 						new ArrayList<Double>(Arrays.asList((double)idVehicle,lat,lon))
 						);
