@@ -17,9 +17,35 @@ import com.sp.repo.FireRepo;
 @Service
 public class FireService {
 
-	@Autowired
 	FireRepo fireRepo;
+	DisplayRunnable dRunnable;
+	private Thread displayThread;
 	
+	public FireService(FireRepo hRepo) {
+		this.fireRepo = hRepo;
+		//Create a Runnable is charge of executing cyclic actions 
+		this.dRunnable=new DisplayRunnable();
+		
+		// A Runnable is held by a Thread which manage lifecycle of the Runnable
+		displayThread=new Thread(dRunnable);
+		
+		// The Thread is started and the method run() of the associated DisplayRunnable is launch
+		displayThread.start();
+		
+	}
+	
+	public void stopDisplay() {
+		//Call the user defined stop method of the runnable
+		this.dRunnable.stop();
+		try {
+			//force the thread to stop
+			this.displayThread.join(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 	public void addFire(Fire f) {
 		Fire createdFire = fireRepo.save(f);
 		System.out.println(createdFire);
