@@ -69,7 +69,7 @@ public class StationService {
 		String ret = "KO"; 
 		Station stationTest = getStation(id);
 		System.out.println(id);
-		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8087/fires/"+idFire, FireDto.class);
+		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8083/fires/"+idFire, FireDto.class);
 		for (Integer idV : stationTest.getVehiclesL()) {
 			
 			ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
@@ -80,8 +80,8 @@ public class StationService {
 				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
 				ResponseEntity<String> retourIntervention = new RestTemplate().postForEntity( url, request , String.class );
-				System.out.println("- -------------------------------------------- http://localhost:8082/vehicles/"+vehicleTest.getId()+"/Coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat());
-				String urlv = "http://localhost:8082/vehicles/"+vehicleTest.getId()+"/Coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
+				System.out.println("- -------------------------------------------- http://localhost:8082/vehicles/"+vehicleTest.getId()+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat());
+				String urlv = "http://localhost:8082/vehicles/"+vehicleTest.getId()+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
 				ResponseEntity<String> retourVehicule = new RestTemplate().postForEntity( urlv, request , String.class );
 				ret = "OK";
 				break;

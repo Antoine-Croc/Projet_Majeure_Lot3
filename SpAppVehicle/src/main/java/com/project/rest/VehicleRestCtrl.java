@@ -208,44 +208,49 @@ public class VehicleRestCtrl {
 	/*
 	 * Put mettre a jour la liste qui contient les vehicules en intervention
 	 */
-	@CrossOrigin
-	@RequestMapping(method=RequestMethod.POST, value="/vehicles/{idVehicle}", consumes = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE })
-	@ResponseBody
-	public void getIntervention(@PathVariable("idVehicle") int idVehicle) {
-		System.out.println("Ca fonctionne");
-	}
-	
-	
-//	/*
-//	 * Put mettre a jour la liste qui contient les vehicules en intervention
-//	 */
 //	@CrossOrigin
-//	@RequestMapping(value="/vehicles/{idVehicle}/Coord", method=RequestMethod.POST)
-//	public List<ArrayList<Double>> getIntervention(@PathVariable int idVehicle, @RequestParam double lon,@RequestParam double lat) {
-//		//vService.MAJ(idI,lon,lat);
-//		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
-//		System.out.println("Test de cxhzngment d'un vehicule --------------------------");
-//		Vehicle vehicle = vService.getVehicleById(idVehicle);
-//		if(vehicle != null) {
-//			//si le vehicle est deja en intervention
-//			if(vehicle.isIntervention()) {
-//				//faire qqc
-//			}
-//			
-//			//sinon on l'ajoute dans la liste d'intervention
-//			else {
-//				vehicle.setIntervention(true);
-//				vehicleIntervention.listIntervention.add(
-//						new ArrayList<Double>(Arrays.asList((double)idVehicle,lat,lon))
-//						);
-//				
-//				}
-//		}
-//		return vehicleIntervention.listIntervention;
-//		
+//	@RequestMapping(method=RequestMethod.POST, value="/vehicles/{idVehicle}", consumes = { MediaType.APPLICATION_JSON_VALUE,
+//			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+//					MediaType.APPLICATION_XML_VALUE })
+//	@ResponseBody
+//	public void getIntervention(@PathVariable("idVehicle") int idVehicle) {
+//		System.out.println("Ca fonctionne");
 //	}
+	
+//	@RequestMapping(value="/vehicles/{idVehicle}/coord", method=RequestMethod.POST)
+//	public boolean test(@PathVariable int idVehicle) {
+//		return true;
+//	}
+	
+	
+	/*
+	 * Put mettre a jour la liste qui contient les vehicules en intervention
+	 */
+	@CrossOrigin
+	@RequestMapping(value="/vehicles/{idVehicle}/coord", method=RequestMethod.POST)
+	public List<ArrayList<Double>> getIntervention(@PathVariable int idVehicle, @RequestParam double lon,@RequestParam double lat) {
+		//vService.MAJ(idI,lon,lat);
+		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
+		System.out.println("Test de cxhzngment d'un vehicule --------------------------");
+		Vehicle vehicle = vService.getVehicleById(idVehicle);
+		if(vehicle != null) {
+			//si le vehicle est deja en intervention
+			if(vehicle.isIntervention()) {
+				//faire qqc
+			}
+			
+			//sinon on l'ajoute dans la liste d'intervention
+			else {
+				vehicle.setIntervention(true);
+				vehicleIntervention.listIntervention.add(
+						new ArrayList<Double>(Arrays.asList((double)idVehicle,lat,lon))
+						);
+				
+				}
+		}
+		return vehicleIntervention.listIntervention;
+		
+	}
 	
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.GET,value="/vehicles/interventions")
