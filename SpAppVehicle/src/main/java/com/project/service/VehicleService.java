@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -93,7 +94,7 @@ public class VehicleService {
 			}
 
 		}
-		System.out.println("Update local repository and FireSimulator");
+		
 
 	}
 
@@ -117,7 +118,7 @@ public class VehicleService {
 		return vehicle;
 	}
 	
-/*
+	/*
 	 * A partir de la liste d'intervention
 	 * On verifie si le vehicule arrive a la destination
 	 */
@@ -136,10 +137,10 @@ public class VehicleService {
 				  vehicle = getVehicleById(idVehicle);
 				  //si le vehicule arrive a proximite et l'intensite du fire est nulle 
 				  
-				  //TODO verifier l'intensite du fire
-				  if(Math.abs(vehicle.getLat() - lat)<1e-3 
+System.out.println("liste:"+vehicleIntervention.listIntervention);
+				  if( isFireOut(lat,lon) && Math.abs(vehicle.getLat() - lat)<1e-3 
 						  && Math.abs(vehicle.getLon() - lon)<1e-3
-						  && isFireOut(lat,lon)) {
+						  ) {
 					  vehicleIntervention.listIntervention.remove(intervention);
 					  System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+idVehicle);
 				  }
@@ -155,7 +156,7 @@ public class VehicleService {
 		ResponseEntity<Float> response = restTemplate.exchange(urlFires, HttpMethod.GET,null,Float.class);
 		Float intensity = response.getBody();
 		
-		if(Math.abs(intensity)<1e-3) {
+		if(Math.abs(intensity)<1e-1) {
 			result = true;
 		}
 		
@@ -166,4 +167,3 @@ public class VehicleService {
 	
 
 }
-

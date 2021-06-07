@@ -18,7 +18,7 @@ public class UpdateRunnable implements Runnable {
 				//synchroniser le local repository et le FireSimulator
 				String urlSimulator = "http://localhost:8081/vehicle";
 				this.vService.updateLocalRepository(urlSimulator);
-				this.vService.VehiclePositionIsFinal();
+			
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();

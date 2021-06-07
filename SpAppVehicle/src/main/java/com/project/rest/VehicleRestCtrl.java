@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
@@ -42,8 +41,7 @@ public class VehicleRestCtrl {
 	@Autowired
 	RunnableMng rService;
 	
-	
-		/*
+	/*
 	 * Get IsVehicleIntervetion
 	 */
 	@CrossOrigin
@@ -52,6 +50,7 @@ public class VehicleRestCtrl {
 		Vehicle vehicle = vService.getVehicleById(Integer.valueOf(id));
 		return vehicle.isIntervention();
 	}
+	
 	
 
 	/*
@@ -135,6 +134,7 @@ public class VehicleRestCtrl {
 		// get response( true / false)
 		String operation = response.getBody();
 		System.out.println("operation update:" + operation);
+		System.out.println("vehicle4bd9d7c9a5a1c27aa5112d16f9e7fd03c4bb4dc2: idDto= " + vehicleDto.getId() +", position: "+vehicleDto.getLat() + ":"+vehicleDto.getLon() );
 
 	}
 
@@ -212,6 +212,7 @@ public class VehicleRestCtrl {
 
 		}
 
+		
 		//verifier si les coordonnees finales correspondent bien a celles de la destination 
 		ArrayList<Float> lastCoords = coords.get(coords.size()-1);
 		
@@ -234,14 +235,15 @@ public class VehicleRestCtrl {
 
 	}
 	
-
-
+	/*
+	 * Post mettre a jour la liste qui contient les vehicules en intervention
+	 */
 	@CrossOrigin
 	@RequestMapping(value="/vehicles/{idVehicle}/coord", method=RequestMethod.POST)
 	public List<ArrayList<Double>> getIntervention(@PathVariable int idVehicle, @RequestParam double lon,@RequestParam double lat) {
 		//vService.MAJ(idI,lon,lat);
 		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
-		System.out.println("Test de cxhzngment d'un vehicule --------------------------");
+	
 		Vehicle vehicle = vService.getVehicleById(idVehicle);
 		if(vehicle != null) {
 			//si le vehicle est deja en intervention
@@ -252,6 +254,8 @@ public class VehicleRestCtrl {
 			//sinon on l'ajoute dans la liste d'intervention
 			else {
 				vehicle.setIntervention(true);
+				//save
+				vService.addVehicle(vehicle);
 				vehicleIntervention.listIntervention.add(
 						new ArrayList<Double>(Arrays.asList((double)idVehicle,lat,lon))
 						);
@@ -262,6 +266,11 @@ public class VehicleRestCtrl {
 		
 	}
 	
+	
+	/*
+	 * GET renvoyer la liste d'interventions 
+	 * [ [idVehicle, FireLat,FireLon],[idVehicle, FireLat,FireLon]]
+	 */
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.GET,value="/vehicles/interventions")
 	public List<ArrayList<Double>> getListIntervention(){
