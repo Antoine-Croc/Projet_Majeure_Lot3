@@ -117,7 +117,7 @@ public class VehicleService {
 		return vehicle;
 	}
 	
-	/*
+/*
 	 * A partir de la liste d'intervention
 	 * On verifie si le vehicule arrive a la destination
 	 */
@@ -134,13 +134,36 @@ public class VehicleService {
 				  lat = intervention.get(1);
 				  lon = intervention.get(2);
 				  vehicle = getVehicleById(idVehicle);
-				  //si le vehicule arrive a proximite
-				  if(Math.abs(vehicle.getLat() - lat)<1e-3 && Math.abs(vehicle.getLon() - lon)<1e-3) {
+				  //si le vehicule arrive a proximite et l'intensite du fire est nulle 
+				  
+				  //TODO verifier l'intensite du fire
+				  if(Math.abs(vehicle.getLat() - lat)<1e-3 
+						  && Math.abs(vehicle.getLon() - lon)<1e-3
+						  && isFireOut(lat,lon)) {
 					  vehicleIntervention.listIntervention.remove(intervention);
-					  System.out.println("vehicle:"+idVehicle + "is arrived at "+lat +":"+lon);
+					  System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+idVehicle);
 				  }
 			 	}
 		 }
 	}
+	
+	private boolean isFireOut(double lat,double lon) {
+		boolean result = false;
+
+		String urlFires = "http://localhost:8083/fires/intensity?lat="+lat+"&lon="+lon;
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Float> response = restTemplate.exchange(urlFires, HttpMethod.GET,null,Float.class);
+		Float intensity = response.getBody();
+		
+		if(Math.abs(intensity)<1e-3) {
+			result = true;
+		}
+		
+		System.out.println("Fire at"+lat+":"+lon +"intensity: "+intensity);
+		return result;
+		
+	}
+	
 
 }
+

@@ -41,6 +41,18 @@ public class VehicleRestCtrl {
 	VehicleService vService;
 	@Autowired
 	RunnableMng rService;
+	
+	
+		/*
+	 * Get IsVehicleIntervetion
+	 */
+	@CrossOrigin
+	@RequestMapping(method = RequestMethod.GET, value = "/vehicles/{id}/intervention")
+	public boolean isVehicleIntervention(@PathVariable String id) {
+		Vehicle vehicle = vService.getVehicleById(Integer.valueOf(id));
+		return vehicle.isIntervention();
+	}
+	
 
 	/*
 	 * Post le nouveau vehicle dans le repository et dans le FireSimulator
