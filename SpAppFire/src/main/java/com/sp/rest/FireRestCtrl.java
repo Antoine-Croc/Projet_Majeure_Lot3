@@ -43,7 +43,7 @@ public class FireRestCtrl {
 		return fService.getIntensity(idF);
 	}
 	@RequestMapping(method=RequestMethod.GET,value="/fires/intensity")
-	public float getFireIntensityByCoord(@RequestParam Coord coord) {
+	public float getFireIntensityByCoord(@RequestParam String lat,@RequestParam String lon) {		Coord coord = new Coord(Double.parseDouble(lon), Double.parseDouble(lat) )
 		return fService.getIntensitywithCoord(coord);
 	}
 	
