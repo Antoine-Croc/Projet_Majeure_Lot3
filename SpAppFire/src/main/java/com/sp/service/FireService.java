@@ -126,7 +126,7 @@ public class FireService {
 		FireDto[] FiresDto = response.getBody();
 		for (FireDto fireDto : FiresDto) {
 
-			Optional<Fire> hOpt = fireRepo.findOneByIdDto(fireDto.getId());
+			Optional<Fire> hOpt = fireRepo.findById(fireDto.getId());
 			if (hOpt.isPresent()) {
 				fire = hOpt.get();
 			} else {

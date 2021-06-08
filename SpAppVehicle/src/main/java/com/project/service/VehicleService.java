@@ -160,7 +160,6 @@ System.out.println("vehicle:" +vehicle.getId()+ " at "+vehicle.getLat() +":"+veh
 					  getvehicle.setIntervention(false);
 					  vRepository.save(getvehicle);
 					  
-System.out.println("--------------------------------------------"+getVehicleById(idVehicle).isIntervention());
 System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+idVehicle+" Intervention:"+getvehicle.isIntervention());
 				  }
 			 	}

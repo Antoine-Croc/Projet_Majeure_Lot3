@@ -11,5 +11,5 @@ import com.sp.model.Fire;
 public interface FireRepo extends CrudRepository<Fire, Integer> {
 
 	public List<Fire> findById(int id);
-	public Optional<Fire> findOneByIdDto(Integer idDto);
+	
 }
