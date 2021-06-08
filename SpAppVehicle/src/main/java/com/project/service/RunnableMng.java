@@ -2,7 +2,6 @@ package com.project.service;
 
 import org.springframework.stereotype.Service;
 
-import com.project.repository.VehicleRepository;
 
 @Service
 public class RunnableMng {
