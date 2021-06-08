@@ -105,6 +105,9 @@ public class CommandCenterService {
 						System.out.println(retourStation.getBody());
 						if(retourStation.getBody().equals("OK")) ret = true;
 						else caserneDejaTest.add(idCasernProche);
+						if(stations.length == caserneDejaTest.size()) {
+							
+						}
 					}
 				}
 			} else {
