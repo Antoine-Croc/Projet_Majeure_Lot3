@@ -80,7 +80,17 @@ public class FireService {
 	public float getIntensitywithCoord(Coord coord) {
 		List<Fire> listeAllFire = getAllFire();
 		for (int i=0; i < listeAllFire.size(); i++) {
-			if (listeAllFire.get(i).getLat() == coord.getLat() && listeAllFire.get(i).getLon() == coord.getLon()) return listeAllFire.get(i).getIntensity(); 
+			if (listeAllFire.get(i).getLat() == coord.getLat() && listeAllFire.get(i).getLon() == coord.getLon()) {
+				int id = listeAllFire.get(i).getId(); 
+				ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
+				FireDto[] fires = resp.getBody();
+				for (FireDto fire : fires) {
+					if (fire.getId() == id) {
+						fireRepo.save(new Fire(fire.getId(),fire.getType(),fire.getIntensity(),fire.getRange(),fire.getLon(),fire.getLat()));
+						return fire.getIntensity();
+					}
+				}
+			}
 		}
 		return 0;
 	}
