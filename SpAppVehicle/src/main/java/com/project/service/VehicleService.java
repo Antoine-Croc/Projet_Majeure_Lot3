@@ -156,10 +156,12 @@ System.out.println("vehicle:" +vehicle.getId()+ " at "+vehicle.getLat() +":"+veh
 					  //supprimer le vehicule de la liste
 					  vehicleIntervention.listIntervention.remove(intervention);
 					  //changer l'etat du vehicule
-					  vehicle.setIntervention(false);
-					  vRepository.save(vehicle);
+					  Vehicle getvehicle = vRepository.findById(idVehicle).get();
+					  getvehicle.setIntervention(false);
+					  vRepository.save(getvehicle);
 					  
-System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+idVehicle+" Intervention:"+vehicle.isIntervention());
+System.out.println("--------------------------------------------"+getVehicleById(idVehicle).isIntervention());
+System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+idVehicle+" Intervention:"+getvehicle.isIntervention());
 				  }
 			 	}
 		 }
