@@ -1,10 +1,10 @@
 package com.sp.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,8 +39,8 @@ public class StationRestCtrl {
 	
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/stations",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-	public void addStation(@RequestBody Coord coord) {
-		Station s = new Station(coord);
+	public void addStation(@RequestBody Coord coord, int size) {
+		Station s = new Station(coord, size);//A prendre en compte dans le POSTMAN
 		sService.addStation(s);
 	}
 	
@@ -51,13 +51,23 @@ public class StationRestCtrl {
 		return sService.findGoodTruck(idS, idFire);
 	}
 	
+<<<<<<< HEAD
+	@RequestMapping(method=RequestMethod.GET,value="/stations/{idS}/vehicles")
+	public List<Integer> getStationVehicleList(@PathVariable int idS){
+		List<Integer> VehicleIdList = new ArrayList<>();
+		VehicleIdList = sService.getStationVehicleList(idS);
+		return VehicleIdList;
+	}
+	
+=======
+>>>>>>> 0d225c095c47d3af62bb877f01f71fde6e1217cc
 	// Faire un put 
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}/vehicles")
 	public void addVehicleId(@RequestParam int idV, @PathVariable int idS) {
 		Station s = sService.getStation(idS);
 		sService.addVehicle(s, idV);
-		
+		sService.occupyVehicleSpace(s, idV);
 	}
 	
 	@CrossOrigin
@@ -67,5 +77,9 @@ public class StationRestCtrl {
 		sService.removeVehicle(s, idV);
 	}
 	
+	@RequestMapping(method=RequestMethod.GET,value="/stations/{idS}/space")
+	public int getStationSpace(@PathVariable int idS) {
+		return sService.getStationFreeSpace(sService.getStation(idS));
+	}
 
 }
