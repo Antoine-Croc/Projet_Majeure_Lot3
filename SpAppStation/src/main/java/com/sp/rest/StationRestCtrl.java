@@ -40,8 +40,8 @@ public class StationRestCtrl {
 	
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/stations",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-	public void addStation(@RequestBody Coord coord, int size) {
-		Station s = new Station(coord, size);//A prendre en compte dans le POSTMAN
+	public void addStations(@RequestBody Coord coord, @RequestParam Integer size) {
+		Station s = new Station(coord,size);
 		sService.addStation(s);
 	}
 	

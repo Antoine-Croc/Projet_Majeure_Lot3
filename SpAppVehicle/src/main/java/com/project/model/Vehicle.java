@@ -36,6 +36,21 @@ public class Vehicle  {
 	public Vehicle() {
 		crewMember= CREW_MEMBER_START_VALUE;
 		liquidType=LiquidType.ALL;
+		this.idDto= 0;
+		this.lon = 5.005;
+		this.lat = 45.809;
+		this.type = VehicleType.TRUCK;
+		this.efficiency = 10;
+		this.liquidType = LiquidType.CARBON_DIOXIDE;
+		this.liquidQuantity = 100;
+		this.liquidConsumption = 1;
+		this.fuel = 100;
+		this.fuelConsumption = 10;
+		this.crewMember = 8;
+		this.crewMemberCapacity = 8;
+		this.facilityRefID = 0;
+		this.size = 3;
+		
 	}
 
 	public Vehicle(VehicleDto vehicleDto) {

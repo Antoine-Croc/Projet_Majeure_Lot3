@@ -266,8 +266,8 @@ public class VehicleRestCtrl {
 		//verifier si les coordonnees finales correspondent bien a celles de la destination 
 		ArrayList<Float> lastCoords = coords.get(coords.size()-1);
 		
-		if( Math.abs( lastCoords.get(0) - Float.parseFloat(latFinal) ) <=1e-3 
-				&& Math.abs( lastCoords.get(1) - Float.parseFloat(lonFinal) ) <=1e-3 ) {
+		if( Math.abs( lastCoords.get(0) - Float.parseFloat(latFinal) ) <=1e-4 
+				&& Math.abs( lastCoords.get(1) - Float.parseFloat(lonFinal) ) <=1e-4 ) {
 			//on fait qqc
 		}
 		//sinon on rajoute les coordonnees de la destination dans la liste

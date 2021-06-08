@@ -139,6 +139,7 @@ public class VehicleService {
 		double lat;
 		double lon;
 		Vehicle vehicle;
+	try {
 		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
 		if( ! vehicleIntervention.listIntervention.isEmpty()) {
 			//parcourir toutes les interventions
@@ -164,6 +165,10 @@ System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+i
 			 	}
 		 }
 	}
+	catch(Exception e) {
+		System.out.println();
+	}
+	}
 	/*
 	 * check if the fire is out
 	 */
@@ -179,7 +184,7 @@ System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+i
 			result = true;
 		}
 		
-System.out.println("Fire at"+lat+":"+lon +"intensity: "+intensity);
+System.out.println("Fire at "+lat+":"+lon +" intensity: "+intensity);
 		return result;
 		
 	}
