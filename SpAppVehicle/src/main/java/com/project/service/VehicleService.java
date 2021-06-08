@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.HttpEntity;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,11 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.project.model.Vehicle;
 import com.project.model.VehicleIntervention;
 import com.project.model.dto.VehicleDto;
 import com.project.repository.VehicleRepository;
-import com.project.rest.VehicleRestCtrl.RouteBean;
 import com.project.model.InterventionDto;
 
 @Service
@@ -32,7 +30,7 @@ public class VehicleService {
 	}
 
 	public void addVehicle(Vehicle vehicle) {
-		Vehicle createdVehicle = vRepository.save(vehicle);
+		 vRepository.save(vehicle);
 	}
 
 	public Vehicle getVehicleById(Integer id) {
@@ -64,6 +62,9 @@ public class VehicleService {
 		System.out.println("delete vehicle id:" + id);
 	}
 
+	/*
+	 * synchroniser le local repo et le FireSimulator
+	 */
 	public void updateLocalRepository(String urlSimulator) {
 		Vehicle vehicle;
 
@@ -123,7 +124,7 @@ public class VehicleService {
 	
 	/*
 	 * A partir de la liste d'intervention
-	 * On verifie si le vehicule arrive a la destination
+	 * On verifie si le vehicule arrive a la destination et le fire soit eteint
 	 */
 	public void VehiclePositionIsFinal() {
 		Integer idVehicle ;
@@ -138,8 +139,9 @@ public class VehicleService {
 				  lat = intervention.getFireLat();
 				  lon = intervention.getFireLon();
 				  vehicle = getVehicleById(idVehicle);
+System.out.println("vehicle:" +vehicle.getId()+ " at "+vehicle.getLat() +":"+vehicle.getLon());
+  
 				  //si le vehicule arrive a proximite et l'intensite du fire est nulle 
-				  
 				  if( isFireOut(lat,lon) && Math.abs(vehicle.getLat() - lat)<1e-3 
 						  && Math.abs(vehicle.getLon() - lon)<1e-3
 						  ) {
@@ -149,12 +151,14 @@ public class VehicleService {
 					  vehicle.setIntervention(false);
 					  vRepository.save(vehicle);
 					  
-					  System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+idVehicle);
+System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+idVehicle);
 				  }
 			 	}
 		 }
 	}
-	
+	/*
+	 * check if the fire is out
+	 */
 	private boolean isFireOut(double lat,double lon) {
 		boolean result = false;
 
@@ -167,7 +171,7 @@ public class VehicleService {
 			result = true;
 		}
 		
-		System.out.println("Fire at "+lat+":"+lon +", intensity: "+intensity);
+System.out.println("Fire at"+lat+":"+lon +"intensity: "+intensity);
 		return result;
 		
 	}
@@ -195,7 +199,7 @@ public class VehicleService {
 			// process exception
 			if (e instanceof HttpStatusCodeException) {
 				String errorResponse = ((HttpStatusCodeException) e).getResponseBodyAsString();
-				System.out.println("------------------" + errorResponse);
+System.out.println("------------------" + errorResponse);
 
 				}
 

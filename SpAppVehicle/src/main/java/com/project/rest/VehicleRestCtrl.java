@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParser;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.InterventionDto;
 import com.project.model.Vehicle;
 import com.project.model.VehicleIntervention;
-import com.project.model.dto.Coord;
+
 import com.project.model.dto.VehicleDto;
 
 @RestController
@@ -106,6 +106,7 @@ public class VehicleRestCtrl {
 		// renvoyer la liste de tous les vehicles
 		return vService.getAllVehicles();
 	}
+	
 
 	/*
 	 * Put mettre a jour le vehicle dans le repository et dans le FireSimulator
@@ -135,7 +136,7 @@ public class VehicleRestCtrl {
 		// get response( true / false)
 		String operation = response.getBody();
 		System.out.println("operation update:" + operation);
-		System.out.println("vehicle id= " + vehicle.getId() +", position: "+vehicle.getLat() + ":"+vehicle.getLon() );
+		System.out.println("vehicle: id= " + vehicle.getId() +", position: "+vehicle.getLat() + ":"+vehicle.getLon() );
 
 	}
 
@@ -188,8 +189,6 @@ public class VehicleRestCtrl {
 				vehicle.setFuel(vehicle.getFuel()-calcul);
 				vService.addVehicle(vehicle);
 			 }
-				 
-			 
 			 
 			
 		}catch (RestClientException e) {
@@ -250,9 +249,7 @@ public class VehicleRestCtrl {
 
 			}
 
-		}
-
-		
+		}		
 		//verifier si les coordonnees finales correspondent bien a celles de la destination 
 		ArrayList<Float> lastCoords = coords.get(coords.size()-1);
 		
@@ -298,7 +295,6 @@ public class VehicleRestCtrl {
 				vService.addVehicle(vehicle);
 				//System.out.println("-------------------------"+vService.getVehicleById(idVehicle).isIntervention());
 				vehicleIntervention.listIntervention.add(new InterventionDto(vehicle,lat,lon));
-				
 				}
 		}
 		return vehicleIntervention.listIntervention;
