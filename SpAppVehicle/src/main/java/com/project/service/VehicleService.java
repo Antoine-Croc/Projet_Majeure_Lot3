@@ -33,7 +33,6 @@ public class VehicleService {
 
 	public void addVehicle(Vehicle vehicle) {
 		vRepository.save(vehicle);
-		 vRepository.save(vehicle);
 	}
 
 	public int getVehicleSize(Vehicle vehicle) {
