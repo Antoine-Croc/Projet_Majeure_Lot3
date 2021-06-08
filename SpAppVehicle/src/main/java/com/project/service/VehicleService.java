@@ -150,9 +150,9 @@ public class VehicleService {
 System.out.println("vehicle:" +vehicle.getId()+ " at "+vehicle.getLat() +":"+vehicle.getLon());
   
 				  //si le vehicule arrive a proximite et l'intensite du fire est nulle 
-				  if( isFireOut(lat,lon) && Math.abs(vehicle.getLat() - lat)<1e-3 
+				  if(  Math.abs(vehicle.getLat() - lat)<1e-3 
 						  && Math.abs(vehicle.getLon() - lon)<1e-3
-						  ) {
+						 &&isFireOut(lat,lon)  ) {
 					  //supprimer le vehicule de la liste
 					  vehicleIntervention.listIntervention.remove(intervention);
 					  //changer son etat

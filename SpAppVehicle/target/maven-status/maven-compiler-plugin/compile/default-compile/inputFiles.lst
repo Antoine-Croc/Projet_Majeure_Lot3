@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /home/guo/4ETI/projectFin/git/Projet_Majeure_Lot3/SpAppVehicle/src/main/java/com/project/service/RunnableMng.java
 /home/guo/4ETI/projectFin/git/Projet_Majeure_Lot3/SpAppVehicle/src/main/java/com/project/service/InterventionRunnable.java
 /home/guo/4ETI/projectFin/git/Projet_Majeure_Lot3/SpAppVehicle/src/main/java/com/project/repository/VehicleRepository.java
@@ -9,14 +8,3 @@
 /home/guo/4ETI/projectFin/git/Projet_Majeure_Lot3/SpAppVehicle/src/main/java/com/project/service/UpdateRunnable.java
 /home/guo/4ETI/projectFin/git/Projet_Majeure_Lot3/SpAppVehicle/src/main/java/com/project/model/VehicleIntervention.java
 /home/guo/4ETI/projectFin/git/Projet_Majeure_Lot3/SpAppVehicle/src/main/java/com/project/model/InterventionDto.java
-=======
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/service/VehicleService.java
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/repository/VehicleRepository.java
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/model/Vehicle.java
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/vehicleApp.java
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/service/UpdateRunnable.java
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/model/VehicleIntervention.java
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/rest/VehicleRestCtrl.java
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/service/InterventionRunnable.java
-/home/guo/4ETI/projectFin/eclipse/SpAppVehicle/src/main/java/com/project/service/RunnableMng.java
->>>>>>> 979bf3c4309e5c0ecea6d00d7c60ad8d4885c273
