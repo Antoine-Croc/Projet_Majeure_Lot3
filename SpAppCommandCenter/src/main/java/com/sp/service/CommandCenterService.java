@@ -13,6 +13,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.project.model.dto.Coord;
 import com.project.model.dto.FireDto;
+import com.project.model.dto.FireType;
+import com.project.model.dto.LiquidType;
+import com.project.model.dto.VehicleDto;
 import com.sp.model.CommandCenter;
 import com.sp.repo.CommandCenterRepo;
 
@@ -56,6 +59,30 @@ public class CommandCenterService {
 		}else {
 			return null;
 		}
+	}
+	
+	public LiquidType getGoodLiquid(FireType fType) {
+		float f=0;
+		LiquidType GoodLiquid = LiquidType.ALL;
+		List <LiquidType> AllTypes = new ArrayList<LiquidType>();
+		AllTypes.add(LiquidType.WATER);
+		AllTypes.add(LiquidType.WATER_WITH_ADDITIVES);
+		AllTypes.add(LiquidType.CARBON_DIOXIDE);
+		AllTypes.add(LiquidType.POWDER);
+		for (int j=0;j<AllTypes.size();j++) {
+			if (f<AllTypes.get(j).getEfficiency(fType.name())) {
+				f=AllTypes.get(j).getEfficiency(fType.name());
+				GoodLiquid=AllTypes.get(j);	
+			}
+		}
+		return GoodLiquid;
+	}
+	
+	public LiquidType checkVehicleLiquid(int idV) {
+		ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
+		VehicleDto vehicleTest = vehicleTestTemp.getBody();
+		LiquidType VehicleLiquid = vehicleTest.getLiquidType();
+		return VehicleLiquid;
 	}
 	
 	public void addCommandCenter() {
