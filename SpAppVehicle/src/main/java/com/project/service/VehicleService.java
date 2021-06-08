@@ -17,15 +17,9 @@ import com.project.model.Vehicle;
 import com.project.model.VehicleIntervention;
 import com.project.model.dto.VehicleDto;
 import com.project.repository.VehicleRepository;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import com.project.model.dto.VehicleType;
-=======
 import com.project.rest.VehicleRestCtrl.RouteBean;
-=======
->>>>>>> 75fe611fd856ba79d2cd00df2ed86d7c44cef789
 import com.project.model.InterventionDto;
->>>>>>> 0d225c095c47d3af62bb877f01f71fde6e1217cc
 
 @Service
 public class VehicleService {
@@ -38,11 +32,8 @@ public class VehicleService {
 	}
 
 	public void addVehicle(Vehicle vehicle) {
-<<<<<<< HEAD
 		vRepository.save(vehicle);
-=======
 		 vRepository.save(vehicle);
->>>>>>> 75fe611fd856ba79d2cd00df2ed86d7c44cef789
 	}
 
 	public int getVehicleSize(Vehicle vehicle) {
