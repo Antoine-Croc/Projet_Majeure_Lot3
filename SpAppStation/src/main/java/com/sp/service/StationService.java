@@ -96,7 +96,7 @@ public class StationService {
 			double lonFeu = fire.getBody().getLon();
 			double latFeu = fire.getBody().getLat();
 			System.out.println(vehicleTest.toString() + " - -  -------------------- "+ idVehicule);
-			if (vehicleTest.getLiquidType().toString().equals("ALL") ) {
+			if (vehicleTest.getLiquidType().toString().equals("ALL")) {
 				ResponseEntity<Boolean> booleeanvehicleG= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV+"/intervention", Boolean.class);
 				boolean booleeanvehicle = booleeanvehicleG.getBody();
 				System.out.println(booleeanvehicle + " !!!!! ");
