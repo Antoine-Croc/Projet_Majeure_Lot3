@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.model.dto.FireDto;
+import com.project.model.dto.FireType;
+import com.project.model.dto.LiquidType;
 import com.sp.model.Station;
 import com.sp.repo.StationRepo;
 
@@ -84,6 +86,23 @@ public class StationService {
 		return 0; //TODO
 	}
 	
+	public LiquidType getGoodLiquid(String fType) {
+		float f=0;
+		LiquidType GoodLiquid = LiquidType.ALL;
+		List <LiquidType> AllTypes = new ArrayList<LiquidType>();
+		AllTypes.add(LiquidType.WATER);
+		AllTypes.add(LiquidType.WATER_WITH_ADDITIVES);
+		AllTypes.add(LiquidType.CARBON_DIOXIDE);
+		AllTypes.add(LiquidType.POWDER);
+		for (int j=0;j<AllTypes.size();j++) {
+			if (f<AllTypes.get(j).getEfficiency(fType)) {
+				f=AllTypes.get(j).getEfficiency(fType);
+				GoodLiquid=AllTypes.get(j);	
+			}
+		}
+		return GoodLiquid;
+	}	
+	
 	public String findGoodTruck(int id, int idFire) {
 		String ret = "KO"; 
 		Station stationTest = getStation(id);
@@ -95,8 +114,9 @@ public class StationService {
 			int idVehicule = vehicleTest.getId();
 			double lonFeu = fire.getBody().getLon();
 			double latFeu = fire.getBody().getLat();
+			LiquidType wantedVehicleLiquid = getGoodLiquid(fire.getBody().getType());
 			System.out.println(vehicleTest.toString() + " - -  -------------------- "+ idVehicule);
-			if (vehicleTest.getLiquidType().toString().equals("ALL") ) {
+			if (vehicleTest.getLiquidType().toString().equals(wantedVehicleLiquid.name()) ) {
 				ResponseEntity<Boolean> booleeanvehicleG= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV+"/intervention", Boolean.class);
 				boolean booleeanvehicle = booleeanvehicleG.getBody();
 				System.out.println(booleeanvehicle + " !!!!! ");
