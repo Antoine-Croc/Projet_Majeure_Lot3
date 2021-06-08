@@ -155,7 +155,7 @@ System.out.println("vehicle:" +vehicle.getId()+ " at "+vehicle.getLat() +":"+veh
 						 &&isFireOut(lat,lon)  ) {
 					  //supprimer le vehicule de la liste
 					  vehicleIntervention.listIntervention.remove(intervention);
-					  //changer son etat
+					  //changer l'etat du vehicule
 					  vehicle.setIntervention(false);
 					  vRepository.save(vehicle);
 					  
@@ -164,9 +164,9 @@ System.out.println("Fire:" + " at "+lat +":"+lon+" is out thanks to vehicle: "+i
 			 	}
 		 }
 	}
-	catch(Exception e) {
-		System.out.println();
-	}
+		catch(Exception e) {
+			System.out.println(e);
+		}
 	}
 	/*
 	 * check if the fire is out
@@ -187,6 +187,7 @@ System.out.println("Fire at "+lat+":"+lon +" intensity: "+intensity);
 		return result;
 		
 	}
+	
 	
 	/*
 	 * Get requete vers API MapBox

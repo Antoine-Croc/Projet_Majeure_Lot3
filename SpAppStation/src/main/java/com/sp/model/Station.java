@@ -31,6 +31,10 @@ public class Station {
 		this.vehiclesL = new ArrayList<Integer>();
 	}
 	
+	public Station(Coord coord) {
+		this.coord = coord;
+		
+	}
 	public Station(Coord coord, ArrayList<Integer> list) {
 		this.coord = coord;
 		this.vehiclesL = list; ///potentiellemnt inutile

@@ -17,24 +17,25 @@ public class CommandCenterRestCtrl {
 	@Autowired
 	private CommandCenterService cService;
 
-	@RequestMapping(method=RequestMethod.GET,value="/CommandCenters/{idS}")
-	public CommandCenter getStation(@PathVariable int idS) {
-		return cService.getStation(idS);
+
+	@RequestMapping(method=RequestMethod.GET,value="/commandcenters/{ids}")
+	public CommandCenter getStation(@PathVariable int ids) {
+		return cService.getStation(ids);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/CommandCenters")
+	@RequestMapping(method=RequestMethod.POST,value="/commandcenters")
 	public void addCommandCenters() {
 		cService.addCommandCenter();
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,value="/CommandCenters")
+	@RequestMapping(method=RequestMethod.GET,value="/commandcenters")
 	public void getStation() {
 		cService.verificationFeu();
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/CommandCenters/fire/{idFire}")
+	@RequestMapping(method=RequestMethod.POST,value="/commandcenters/fire/{idFire}")
 	public void addFireInCommandCenters(@PathVariable int idFire) {
-		cService.addFireEnSuspence(idFire);
+		cService.addFireEnSuspence(idFire,1);
 	}
 	
 }

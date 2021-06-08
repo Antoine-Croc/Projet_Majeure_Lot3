@@ -60,16 +60,29 @@ public class CommandCenterService {
 	
 	public void addCommandCenter() {
 		cRepo.save(new CommandCenter());
+
+	}
+	public CommandCenter getCenter() {
+		CommandCenter cCenter;
+		cCenter = getStation(1);
+		if(cCenter ==null) {
+			cCenter = new CommandCenter();
+		}
+		return cCenter;
 	}
 	
-	public void addFireEnSuspence(int idFeu) {
-		CommandCenter cCenter = getStation(0);
-		List<Integer> listeFeu = cCenter.getFeuAgerer();
+	public void addFireEnSuspence(Integer idFeu,Integer id) {
+		System.out.println(idFeu + "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+		CommandCenter cCenter = getCenter();
+		ArrayList<Integer> listeFeu = cCenter.getFeuAgerer();
+		
 		listeFeu.add(idFeu);
 		cCenter.setFeuAgerer(listeFeu);
+		System.out.println(listeFeu + "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 		cRepo.save(cCenter);
 	}
 	public static void verificationFeu() {
+		
 		try {
 			ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8085/stations", StationDto[].class);
 			StationDto[] stations = resultat.getBody();
@@ -116,7 +129,7 @@ public class CommandCenterService {
 							System.out.println("Ajout du feu en attente");
 							headers = new HttpHeaders();
 							HttpEntity<Void> requests = new HttpEntity<Void>(null, headers);
-							new RestTemplate().postForEntity( "http://localhost:8086/CommandCenters/fire/"+fire.getId(), request , String.class );
+							new RestTemplate().postForEntity( "http://localhost:8084/commandcenters/fire/"+fire.getId(), request , String.class );
 							break;
 						}
 					}
@@ -125,7 +138,7 @@ public class CommandCenterService {
 				System.out.println("Attention, aucune caserne n'a été créée");
 			}
 	} catch(Exception e) {
-		System.out.println("Surement un manque de service.");
+		System.out.println("Surement un manque de service. Error:"+ e);
 	}
 	}
 	

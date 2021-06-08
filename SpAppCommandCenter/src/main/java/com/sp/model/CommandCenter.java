@@ -8,15 +8,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
+
 @Entity
 public class CommandCenter {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private List<Integer> feuAgerer = new ArrayList<Integer>();
+	
+	private ArrayList<Integer> feuAgerer;
 
-	public CommandCenter() {}
+	public  CommandCenter() {
+		this.feuAgerer  = new ArrayList<Integer>();
+	}
+	
 	
 	public int getId() {
 		return id;
@@ -27,11 +33,11 @@ public class CommandCenter {
 		return "C'est beau [id=" + id + "]";
 	}
 
-	public List<Integer> getFeuAgerer() {
+	public ArrayList<Integer> getFeuAgerer() {
 		return feuAgerer;
 	}
 
-	public void setFeuAgerer(List<Integer> feuAgerer) {
+	public void setFeuAgerer(ArrayList<Integer> feuAgerer) {
 		this.feuAgerer = feuAgerer;
 	}
 	
