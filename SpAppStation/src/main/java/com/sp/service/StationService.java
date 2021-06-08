@@ -65,6 +65,25 @@ public class StationService {
 		stationRepo.save(station);
 	}
 	
+	public int getStationSize(Station station) {
+		return station.getSize();
+	}
+	
+	public void occupyVehicleSpace(Station station, int idV) {
+		ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
+		VehicleDto vehicleTest = vehicleTestTemp.getBody();
+		int vSize = vehicleTest.getType().getSpaceUsedInFacility();
+		station.setSpaceUsed(station.getSpaceUsed()+vSize);
+	}
+	
+	public int getStationSpaceUsed(Station station) {
+		return station.getSpaceUsed();
+	}
+	
+	public int getStationFreeSpace(Station station) {
+		return 0; //TODO
+	}
+	
 	public String findGoodTruck(int id, int idFire) {
 		String ret = "KO"; 
 		Station stationTest = getStation(id);
@@ -74,18 +93,24 @@ public class StationService {
 			ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
 			VehicleDto vehicleTest = vehicleTestTemp.getBody();
 			int idVehicule = vehicleTest.getId();
+			double lonFeu = fire.getBody().getLon();
+			double latFeu = fire.getBody().getLat();
 			System.out.println(vehicleTest.toString() + " - -  -------------------- "+ idVehicule);
 			if (vehicleTest.getLiquidType().toString().equals("ALL") ) {
-				String url = "http://localhost:8086/interventions/"+"?idF="+idFire+"&idV="+idVehicule;
-				HttpHeaders headers = new HttpHeaders();
-				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
-				ResponseEntity<String> retourIntervention = new RestTemplate().postForEntity( url, request , String.class );
-				System.out.println("- -------------------------------------------- http://localhost:8082/vehicles/"+idVehicule+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat());
-				String urlv = "http://localhost:8082/vehicles/"+idVehicule+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
-				ResponseEntity<String> retourVehicule = new RestTemplate().postForEntity( urlv, request , String.class );
-				ret = "OK";
-				break;
+				ResponseEntity<Boolean> booleeanvehicleG= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV+"/intervention", Boolean.class);
+				boolean booleeanvehicle = booleeanvehicleG.getBody();
+				System.out.println(booleeanvehicle + " !!!!! ");
+				if (!booleeanvehicle) {
+					String url = "http://localhost:8086/interventions/"+"?idF="+idFire+"&idV="+idVehicule;
+					HttpHeaders headers = new HttpHeaders();
+					headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+					HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
+					ResponseEntity<String> retourIntervention = new RestTemplate().postForEntity( url, request , String.class );
+					String urlv = "http://localhost:8082/vehicles/"+idVehicule+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
+					ResponseEntity<String> retourVehicule = new RestTemplate().postForEntity( urlv, request , String.class );
+					ret = "OK";
+					break;
+				}
 			}
 		}
 		return ret; 

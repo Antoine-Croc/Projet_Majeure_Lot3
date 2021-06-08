@@ -31,9 +31,8 @@ public class Vehicle  {
 	private int crewMemberCapacity;
 	private Integer facilityRefID;
 	private boolean isIntervention = false;
+	private int size;
 	
-
-
 	public Vehicle() {
 		crewMember= CREW_MEMBER_START_VALUE;
 		liquidType=LiquidType.ALL;
@@ -54,6 +53,7 @@ public class Vehicle  {
 		this.crewMember = vehicleDto.getCrewMember();
 		this.crewMemberCapacity = vehicleDto.getCrewMemberCapacity();
 		this.facilityRefID = vehicleDto.getFacilityRefID();
+		this.size = vehicleDto.getType().getSpaceUsedInFacility();
 	}
 
 	@Override
@@ -180,5 +180,11 @@ public class Vehicle  {
 		this.isIntervention = isIntervention;
 	}
 	
+	public int getSize() {
+		return size;
+	}
 
+	public void setSize(int size) {
+		this.size = size;
+	}
 }

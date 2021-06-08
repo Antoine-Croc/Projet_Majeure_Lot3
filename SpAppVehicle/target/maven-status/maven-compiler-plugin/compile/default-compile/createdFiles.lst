@@ -5,6 +5,7 @@ com/project/service/RunnableMng.class
 com/project/service/VehicleService.class
 com/project/model/Vehicle.class
 com/project/rest/VehicleRestCtrl.class
+com/project/model/InterventionDto.class
 com/project/service/InterventionRunnable.class
 com/project/vehicleApp.class
 com/project/service/UpdateRunnable.class

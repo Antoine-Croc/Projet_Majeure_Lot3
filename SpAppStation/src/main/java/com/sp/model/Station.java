@@ -19,14 +19,18 @@ public class Station {
 	private int id;
 	@Embedded
 	private Coord coord;
-	
+	private int size;
+	private int spaceUsed;
 	private ArrayList<Integer> vehiclesL;
 	
 	public Station() {}
-	public Station(Coord coord) {
+	public Station(Coord coord, int size) {
 		this.coord = coord;
+		this.size = size;
+		this.spaceUsed = 0;
 		this.vehiclesL = new ArrayList<Integer>();
 	}
+	
 	public Station(Coord coord, ArrayList<Integer> list) {
 		this.coord = coord;
 		this.vehiclesL = list; ///potentiellemnt inutile
@@ -35,6 +39,21 @@ public class Station {
 	@Override
 	public String toString() {
 		return "Station [id=" + id + " coord=" + coord + ", vehiclesL=" + vehiclesL + "]";
+	}
+	
+	public int getSize() {
+		return size;
+	}
+	public void setSize(int size) {
+		this.size = size;
+	}
+	
+	public int getSpaceUsed() {
+		return spaceUsed;
+	}
+	
+	public void setSpaceUsed(int spaceUsed) {
+		this.spaceUsed = spaceUsed;
 	}
 	
 	public int getId() {

@@ -81,7 +81,15 @@ public class VehicleRestCtrl {
 		}
 		return vehicle;
 	}
-
+	/*
+	 * Récupère l'espace qu'occupe le vehicule.
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/vehicles/{idV}/size")
+	public int getSize(@PathVariable int idV) {
+		Vehicle vehicle = vService.getVehicleById(idV);
+		return vehicle.getSize();
+	}
+	
 	/*
 	 * Get le vehicle par id de la classe Vehicle
 	 */

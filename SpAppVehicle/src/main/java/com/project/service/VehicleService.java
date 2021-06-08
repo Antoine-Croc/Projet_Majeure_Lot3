@@ -17,7 +17,10 @@ import com.project.model.Vehicle;
 import com.project.model.VehicleIntervention;
 import com.project.model.dto.VehicleDto;
 import com.project.repository.VehicleRepository;
+import com.project.model.dto.VehicleType;
+import com.project.rest.VehicleRestCtrl.RouteBean;
 import com.project.model.InterventionDto;
+
 
 @Service
 public class VehicleService {
@@ -33,6 +36,10 @@ public class VehicleService {
 		 vRepository.save(vehicle);
 	}
 
+	public int getVehicleSize(Vehicle vehicle) {
+		return vehicle.getSize();
+	}
+	
 	public Vehicle getVehicleById(Integer id) {
 		Optional<Vehicle> hOpt = vRepository.findById(id);
 		if (hOpt.isPresent()) {
@@ -40,6 +47,7 @@ public class VehicleService {
 		} else {
 			return null;
 		}
+
 	}
 
 	public Vehicle getVehicleByIdDto(Integer id) {
