@@ -71,16 +71,6 @@ public class CommandCenterService {
 		return cCenter;
 	}
 	
-	public void addFireEnSuspence(Integer idFeu,Integer id) {
-		System.out.println(idFeu + "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-		CommandCenter cCenter = getCenter();
-		ArrayList<Integer> listeFeu = cCenter.getFeuAgerer();
-		
-		listeFeu.add(idFeu);
-		cCenter.setFeuAgerer(listeFeu);
-		System.out.println(listeFeu + "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-		cRepo.save(cCenter);
-	}
 	public static void verificationFeu() {
 		
 		try {
@@ -120,16 +110,25 @@ public class CommandCenterService {
 						url=url+"?idFire="+fire.getId();
 						HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
 					
-		System.out.println("idCasernProche = "+idCasernProche);
 						ResponseEntity<String> retourStation = new RestTemplate().postForEntity( url, request , String.class );
 						System.out.println(retourStation.getBody());
-						if(retourStation.getBody().equals("OK")) ret = true;
+						if(retourStation.getBody().equals("OK")) {
+							ret = true;
+							url = "http://localhost:8083/fires/"+fire.getId()+"/traite?idF="+ret;
+							headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+							HttpEntity<Void> requests = new HttpEntity<Void>(null, headers);
+							ResponseEntity<String> retourIntervention = new RestTemplate().postForEntity( url, request , String.class );
+							
+						}
 						else caserneDejaTest.add(idCasernProche);
 						if(stations.length == caserneDejaTest.size()) {
+<<<<<<< HEAD
 							System.out.println("Ajout du feu en attente");
 							headers = new HttpHeaders();
 							HttpEntity<Void> requests = new HttpEntity<Void>(null, headers);
 							new RestTemplate().postForEntity( "http://localhost:8084/commandcenters/fire/"+fire.getId(), request , String.class );
+=======
+>>>>>>> 1a2f8c966059a1bdfd940c5da56f0d3337e16049
 							break;
 						}
 					}

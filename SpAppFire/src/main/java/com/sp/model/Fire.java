@@ -1,6 +1,8 @@
 package com.sp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.project.model.dto.Coord;
@@ -11,11 +13,15 @@ public class Fire {
 
 	@Id
 	private Integer id;
+
+
+	private Integer idDto;
 	private String type;
 	private float intensity;
 	private float range;
 	private double lon;
 	private double lat;
+	private boolean traite = false;
 
 	public Fire() {}
 	
@@ -63,6 +69,21 @@ public class Fire {
 	}
 	public void setLat(double lat) {
 		this.lat = lat;
+	}
+
+	public boolean isTraite() {
+		return traite;
+	}
+
+	public void setTraite(boolean traite) {
+		this.traite = traite;
+	}
+	public Integer getIdDto() {
+		return idDto;
+	}
+
+	public void setIdDto(Integer idDto) {
+		this.idDto = idDto;
 	}
 	
 	

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,8 +16,8 @@ import com.sp.repo.FireRepo;
 
 @Service
 public class FireService {
-
-	FireRepo fireRepo;
+	private FireRepo fireRepo;
+	
 	DisplayRunnable dRunnable;
 	private Thread displayThread;
 	
@@ -95,13 +95,65 @@ public class FireService {
 		return 0;
 	}
 	
-	public void updateFire() {
-		ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
-		FireDto[] fires = resp.getBody();
-		fireRepo.deleteAll();
-		
-		for (FireDto fire : fires) {
-				addFire(new Fire(fire.getId(),fire.getType(),fire.getIntensity(),fire.getRange(),fire.getLon(),fire.getLat()));
+	public boolean getstatuswithId(int id) {
+		List<Fire> listeAllFire = getAllFire();
+		for (int i=0; i < listeAllFire.size(); i++) {
+			if (listeAllFire.get(i).getId() == id) return listeAllFire.get(i).isTraite();
+		}
+		return false;
+	}
+	
+	public void setstatuswithId(int id, boolean traite) {
+		List<Fire> listeAllFire = getAllFire();
+		for (int i=0; i < listeAllFire.size(); i++) {
+			if (listeAllFire.get(i).getId() == id) {
+				Fire fireAmodif = listeAllFire.get(i);
+				fireAmodif.setTraite(traite);
+				fireRepo.save(fireAmodif);
+			}
+		}
+	}
+	public Fire updateAttributes(Fire fire, FireDto fDTO) {
+		fire.setIntensity(fDTO.getIntensity());
+		fire.setType(fDTO.getType());
+		fire.setRange(fDTO.getRange());
+		fire.setLat(fDTO.getLat());
+		fire.setLon(fDTO.getLon());
+		return fire;
+	}
+	
+	public void updateFire(String urlSimulator) {
+		Fire fire;
+
+		// faire la requete vers FireSimulator pour avoir tous les Fires
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<FireDto[]> response = restTemplate.exchange(urlSimulator, HttpMethod.GET, null,
+				FireDto[].class);
+
+		// mettre le repository a jour
+		FireDto[] FiresDto = response.getBody();
+		for (FireDto fireDto : FiresDto) {
+
+			Optional<Fire> hOpt = fireRepo.findOneByIdDto(fireDto.getId());
+			if (hOpt.isPresent()) {
+				fire = hOpt.get();
+			} else {
+				fire=null;
+			}
+
+			// si le vehicle existe deja dans le local repository,
+			// mettre a jour ses attributs
+			if (fire != null) {
+				fire = updateAttributes(fire, fireDto);
+				fireRepo.save(fire);
+			}
+			// sinon on cree un nouveau vehicle dans le local repository
+			else {
+				fire = new Fire(fireDto.getId(),fire.getType(),fire.getIntensity(),fire.getRange(),fire.getLon(),fire.getLat());
+				fire.setIdDto(fireDto.getId());
+				fireRepo.save(fire);
+			}
+
 		}
 	}
 }

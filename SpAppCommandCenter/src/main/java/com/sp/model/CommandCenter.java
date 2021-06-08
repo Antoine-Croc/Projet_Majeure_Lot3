@@ -16,8 +16,6 @@ public class CommandCenter {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	
-	private ArrayList<Integer> feuAgerer;
 
 	public  CommandCenter() {
 		this.feuAgerer  = new ArrayList<Integer>();
@@ -32,6 +30,7 @@ public class CommandCenter {
 	public String toString() {
 		return "C'est beau [id=" + id + "]";
 	}
+<<<<<<< HEAD
 
 	public ArrayList<Integer> getFeuAgerer() {
 		return feuAgerer;
@@ -42,4 +41,6 @@ public class CommandCenter {
 	}
 	
 	
+=======
+>>>>>>> 1a2f8c966059a1bdfd940c5da56f0d3337e16049
 }
