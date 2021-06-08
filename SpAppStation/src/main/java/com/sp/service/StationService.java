@@ -81,7 +81,7 @@ public class StationService {
 	}
 	
 	public int getStationFreeSpace(Station station) {
-		return 0; //TODO
+		return station.getSize()-station.getSpaceUsed(); //TODO
 	}
 	
 	public String findGoodTruck(int id, int idFire) {
