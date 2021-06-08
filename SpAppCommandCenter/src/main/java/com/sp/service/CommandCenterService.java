@@ -122,13 +122,6 @@ public class CommandCenterService {
 						}
 						else caserneDejaTest.add(idCasernProche);
 						if(stations.length == caserneDejaTest.size()) {
-<<<<<<< HEAD
-							System.out.println("Ajout du feu en attente");
-							headers = new HttpHeaders();
-							HttpEntity<Void> requests = new HttpEntity<Void>(null, headers);
-							new RestTemplate().postForEntity( "http://localhost:8084/commandcenters/fire/"+fire.getId(), request , String.class );
-=======
->>>>>>> 1a2f8c966059a1bdfd940c5da56f0d3337e16049
 							break;
 						}
 					}

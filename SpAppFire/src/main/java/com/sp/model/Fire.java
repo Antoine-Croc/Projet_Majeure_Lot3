@@ -14,8 +14,6 @@ public class Fire {
 	@Id
 	private Integer id;
 
-
-	private Integer idDto;
 	private String type;
 	private float intensity;
 	private float range;
@@ -78,13 +76,7 @@ public class Fire {
 	public void setTraite(boolean traite) {
 		this.traite = traite;
 	}
-	public Integer getIdDto() {
-		return idDto;
-	}
 
-	public void setIdDto(Integer idDto) {
-		this.idDto = idDto;
-	}
 	
 	
 

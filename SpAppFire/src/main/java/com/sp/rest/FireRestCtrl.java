@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.model.dto.Coord;
+import com.sp.service.RunnableMng;
 import com.sp.model.Fire;
 import com.sp.service.FireService;
 
@@ -20,6 +21,8 @@ public class FireRestCtrl {
 
 	@Autowired
 	FireService fService;
+	@Autowired
+	RunnableMng rService;
 	
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/fires")
@@ -62,15 +65,15 @@ public class FireRestCtrl {
 	
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST, value="/fires/{idF}/traite")
-	public void setTraitFire(@RequestBody int id, @RequestParam boolean traite) {
-		fService.setstatuswithId(id, traite);
+	public void setTraitFire(@PathVariable int idF, @RequestParam boolean traite) {
+		fService.setstatuswithId(idF, traite);
 		
 	}
 	
 	@CrossOrigin
-	@RequestMapping(method=RequestMethod.POST, value="/fires/{idF}/traite")
-	public boolean getTraitFire(@RequestBody int id) {
-		return fService.getstatuswithId(id);
+	@RequestMapping(method=RequestMethod.GET, value="/fires/{idF}/traite")
+	public boolean getTraitFire(@PathVariable int idF) {
+		return fService.getstatuswithId(idF);
 		
 	}
 }

@@ -23,14 +23,6 @@ public class FireService {
 	
 	public FireService(FireRepo hRepo) {
 		this.fireRepo = hRepo;
-		//Create a Runnable is charge of executing cyclic actions 
-		this.dRunnable=new DisplayRunnable();
-		
-		// A Runnable is held by a Thread which manage lifecycle of the Runnable
-		displayThread=new Thread(dRunnable);
-		
-		// The Thread is started and the method run() of the associated DisplayRunnable is launch
-		displayThread.start();
 		
 	}
 	
@@ -149,8 +141,8 @@ public class FireService {
 			}
 			// sinon on cree un nouveau vehicle dans le local repository
 			else {
-				fire = new Fire(fireDto.getId(),fire.getType(),fire.getIntensity(),fire.getRange(),fire.getLon(),fire.getLat());
-				fire.setIdDto(fireDto.getId());
+				fire = new Fire(fireDto.getId(),fireDto.getType(),fireDto.getIntensity(),fireDto.getRange(),fireDto.getLon(),fireDto.getLat());
+				
 				fireRepo.save(fire);
 			}
 
