@@ -62,6 +62,13 @@ public class CommandCenterService {
 		cRepo.save(new CommandCenter());
 	}
 	
+	public void addFireEnSuspence(int idFeu) {
+		CommandCenter cCenter = getStation(0);
+		List<Integer> listeFeu = cCenter.getFeuAgerer();
+		listeFeu.add(idFeu);
+		cCenter.setFeuAgerer(listeFeu);
+		cRepo.save(cCenter);
+	}
 	public static void verificationFeu() {
 		try {
 			ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8085/stations", StationDto[].class);
@@ -106,7 +113,11 @@ public class CommandCenterService {
 						if(retourStation.getBody().equals("OK")) ret = true;
 						else caserneDejaTest.add(idCasernProche);
 						if(stations.length == caserneDejaTest.size()) {
-							
+							System.out.println("Ajout du feu en attente");
+							headers = new HttpHeaders();
+							HttpEntity<Void> requests = new HttpEntity<Void>(null, headers);
+							new RestTemplate().postForEntity( "http://localhost:8086/CommandCenters/fire/"+fire.getId(), request , String.class );
+							break;
 						}
 					}
 				}

@@ -26,6 +26,14 @@ public class CommandCenter {
 	public String toString() {
 		return "C'est beau [id=" + id + "]";
 	}
+
+	public List<Integer> getFeuAgerer() {
+		return feuAgerer;
+	}
+
+	public void setFeuAgerer(List<Integer> feuAgerer) {
+		this.feuAgerer = feuAgerer;
+	}
 	
 	
 }
