@@ -14,7 +14,6 @@ public class CommandCenter {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private List<Integer> feuAgerer = new ArrayList<Integer>();
 
 	public CommandCenter() {}
 	
@@ -26,14 +25,4 @@ public class CommandCenter {
 	public String toString() {
 		return "C'est beau [id=" + id + "]";
 	}
-
-	public List<Integer> getFeuAgerer() {
-		return feuAgerer;
-	}
-
-	public void setFeuAgerer(List<Integer> feuAgerer) {
-		this.feuAgerer = feuAgerer;
-	}
-	
-	
 }

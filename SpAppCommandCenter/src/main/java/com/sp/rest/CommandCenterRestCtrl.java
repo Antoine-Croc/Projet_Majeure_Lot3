@@ -31,10 +31,4 @@ public class CommandCenterRestCtrl {
 	public void getStation() {
 		cService.verificationFeu();
 	}
-	
-	@RequestMapping(method=RequestMethod.POST,value="/CommandCenters/fire/{idFire}")
-	public void addFireInCommandCenters(@PathVariable int idFire) {
-		cService.addFireEnSuspence(idFire);
-	}
-	
 }

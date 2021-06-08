@@ -31,7 +31,7 @@ public class FireRestCtrl {
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/fires/update")
 	public void updateFire() {
-		fService.updateFire();
+		fService.updateFire("http://localhost:8081/fire");
 	}
 	
 	@CrossOrigin
@@ -61,7 +61,16 @@ public class FireRestCtrl {
 	}
 	
 	@CrossOrigin
-	@RequestMapping(method=RequestMethod.PUT, value="/fires/{idF}")
-	public void updateFire(@RequestBody int id, @RequestBody String type, @RequestBody float intensity, @RequestBody float range, @RequestBody double lon, @RequestBody double lat) {
+	@RequestMapping(method=RequestMethod.POST, value="/fires/{idF}/traite")
+	public void setTraitFire(@RequestBody int id, @RequestParam boolean traite) {
+		fService.setstatuswithId(id, traite);
+		
+	}
+	
+	@CrossOrigin
+	@RequestMapping(method=RequestMethod.POST, value="/fires/{idF}/traite")
+	public boolean getTraitFire(@RequestBody int id) {
+		return fService.getstatuswithId(id);
+		
 	}
 }
