@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,7 +52,6 @@ public class StationRestCtrl {
 		return sService.findGoodTruck(idS, idFire);
 	}
 	
-<<<<<<< HEAD
 	@RequestMapping(method=RequestMethod.GET,value="/stations/{idS}/vehicles")
 	public List<Integer> getStationVehicleList(@PathVariable int idS){
 		List<Integer> VehicleIdList = new ArrayList<>();
@@ -59,8 +59,7 @@ public class StationRestCtrl {
 		return VehicleIdList;
 	}
 	
-=======
->>>>>>> 0d225c095c47d3af62bb877f01f71fde6e1217cc
+
 	// Faire un put 
 	@CrossOrigin
 	@RequestMapping(method=RequestMethod.POST,value="/stations/{idS}/vehicles")
