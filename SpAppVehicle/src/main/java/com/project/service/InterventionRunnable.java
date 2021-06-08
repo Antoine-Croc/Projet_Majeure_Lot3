@@ -14,7 +14,7 @@ public class InterventionRunnable implements Runnable{
 	public void run() {
 		while (!this.isEnd) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(5000);
 				//verifier la position du vehicule
 				this.vService.VehiclePositionIsFinal();
 				

@@ -63,51 +63,56 @@ public class CommandCenterService {
 	}
 	
 	public static void verificationFeu() {
+		try {
+			ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8085/stations", StationDto[].class);
+			StationDto[] stations = resultat.getBody();
+			if(stations.length > 0) {
+				ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
+				FireDto[] fires = resp.getBody();
+				ResponseEntity<InterventionDto[]> result = new RestTemplate().getForEntity("http://localhost:8086/interventions", InterventionDto[].class);
+				InterventionDto[] interventions = result.getBody();
+				
+				for (FireDto fire : fires) {
+					boolean newFire = true;
+					boolean ret = false;
+					List<Integer> caserneDejaTest = new ArrayList<Integer>();
+					
+					for(InterventionDto intervention : interventions) {
+						System.out.println(fire.getId()+" =========== "+intervention.getIdFire());
+						if(fire.getId() == intervention.getIdFire()) newFire = false;
+					}
+					while (newFire && !ret) {
+						Coord casernProche = new Coord(10,10);
+						int idCasernProche = 110;   
+	
+						for (StationDto station: stations) {
+							if (!(caserneDejaTest.contains(station.getId())) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getCoord().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getCoord().getLon()- fire.getLon()))))) {
+								casernProche.setLat(station.getCoord().getLat());
+								casernProche.setLon(station.getCoord().getLon());
+								idCasernProche = station.getId();
+							}
+						}
 		
-		ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
-		FireDto[] fires = resp.getBody();
-		ResponseEntity<InterventionDto[]> result = new RestTemplate().getForEntity("http://localhost:8086/interventions", InterventionDto[].class);
-		InterventionDto[] interventions = result.getBody();
-		
-		for (FireDto fire : fires) {
-			boolean newFire = true;
-			boolean ret = false;
-			List<Integer> caserneDejaTest = new ArrayList<Integer>();
-			
-			for(InterventionDto intervention : interventions) {
-				System.out.println(fire.getId()+" =========== "+intervention.getIdFire());
-				if(fire.getId() == intervention.getIdFire()) newFire = false;
-			}
-			while (newFire && !ret) {
-				Coord casernProche = new Coord(10,10);
-				int idCasernProche = 110;   
-				ResponseEntity<StationDto[]> resultat = new RestTemplate().getForEntity("http://localhost:8085/stations", StationDto[].class);
-				StationDto[] stations = resultat.getBody();
-				System.out.println(stations.toString());
-				for (StationDto station: stations) {
-					if (!(caserneDejaTest.contains(station.getId())) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getCoord().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getCoord().getLon()- fire.getLon()))))) {
-						casernProche.setLat(station.getCoord().getLat());
-						casernProche.setLon(station.getCoord().getLon());
-						idCasernProche = station.getId();
+						String url = "http://localhost:8085/stations/"+idCasernProche;
+						HttpHeaders headers = new HttpHeaders();
+						headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+						url=url+"?idFire="+fire.getId();
+						HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
+					
+		System.out.println("idCasernProche = "+idCasernProche);
+						ResponseEntity<String> retourStation = new RestTemplate().postForEntity( url, request , String.class );
+						System.out.println(retourStation.getBody());
+						if(retourStation.getBody().equals("OK")) ret = true;
+						else caserneDejaTest.add(idCasernProche);
 					}
 				}
-
-				String url = "http://localhost:8085/stations/"+idCasernProche;
-				HttpHeaders headers = new HttpHeaders();
-				headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-				url=url+"?idFire="+fire.getId();
-				HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
-			
-System.out.println("idCasernProche = "+idCasernProche);
-				ResponseEntity<String> retourStation = new RestTemplate().postForEntity( url, request , String.class );
-				System.out.println(retourStation.getBody());
-				if(retourStation.getBody().equals("OK")) ret = true;
-				else caserneDejaTest.add(idCasernProche);
+			} else {
+				System.out.println("Attention, aucune caserne n'a été créée");
 			}
-		}
-	
+	} catch(Exception e) {
+		System.out.println("Surement un manque de service.");
 	}
-	
+	}
 	
 	public static class InterventionDto{
 		int id;

@@ -140,7 +140,12 @@ public class VehicleRestCtrl {
 		// updateLocalRepositoryById(idVehicle, idDTO);
 		vehicle = vService.updateAttributes(vehicle, vehicleDto);
 		vService.addVehicle(vehicle);
-
+		
+		
+		//mettre à jour la position du vehicle dans la liste d'intervention
+		updateListIntervention(vehicle);
+		
+		
 		// get response( true / false)
 		String operation = response.getBody();
 		System.out.println("operation update:" + operation);
@@ -346,6 +351,25 @@ public class VehicleRestCtrl {
 		public String toString() {
 			return this.coordinates.toString() + this.type;
 		}
+	}
+	
+	/*
+	 * update la position du vehicule dans la liste intervention
+	 */
+	private void updateListIntervention(Vehicle vehicle) {
+		VehicleIntervention vehicleIntervention = VehicleIntervention.getInstance();
+		 
+		 List<InterventionDto> listTemp = new ArrayList<InterventionDto>();
+		 
+		 for(InterventionDto interventionDto : vehicleIntervention.listIntervention) {
+			 if(interventionDto.getVehicle().getId() == vehicle.getId()) {
+				 interventionDto.setVehicle(vehicle);
+			 }
+			 listTemp.add(interventionDto);
+			 
+		 }
+		 vehicleIntervention.listIntervention = listTemp;
+		 
 	}
 
 	/*
