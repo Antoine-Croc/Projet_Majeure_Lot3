@@ -98,15 +98,10 @@ public class FireService {
 	public void updateFire() {
 		ResponseEntity<FireDto[]> resp = new RestTemplate().getForEntity("http://localhost:8081/fire", FireDto[].class);
 		FireDto[] fires = resp.getBody();
-		List<Fire> knownfires = getAllFire();
+		fireRepo.deleteAll();
+		
 		for (FireDto fire : fires) {
-			boolean known = false;
-			for (Fire knownfire : knownfires) {
-				if (fire.getId()==knownfire.getId()) known = true;
-			}
-			if (!known) {
 				addFire(new Fire(fire.getId(),fire.getType(),fire.getIntensity(),fire.getRange(),fire.getLon(),fire.getLat()));
-			}
 		}
 	}
 }

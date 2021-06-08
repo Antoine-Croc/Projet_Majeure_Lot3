@@ -86,7 +86,8 @@ public class CommandCenterService {
 						int idCasernProche = 110;   
 	
 						for (StationDto station: stations) {
-							if (!(caserneDejaTest.contains(station.getId())) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getCoord().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getCoord().getLon()- fire.getLon()))))) {
+							System.out.println("la station possède : "+station.getVehiclesL().size());
+							if (!(caserneDejaTest.contains(station.getId())) && (station.getVehiclesL().size() > 0) && ((Math.abs(casernProche.getLat()- fire.getLat()) > Math.abs(station.getCoord().getLat()- fire.getLat())  || (Math.abs(casernProche.getLon()- fire.getLon()) > Math.abs(station.getCoord().getLon()- fire.getLon()))))) {
 								casernProche.setLat(station.getCoord().getLat());
 								casernProche.setLon(station.getCoord().getLon());
 								idCasernProche = station.getId();
@@ -131,6 +132,7 @@ public class CommandCenterService {
 	public static class StationDto{
 		int id;
 		Coord coord;
+		ArrayList<Integer> vehiclesL;
 		
 		public StationDto() {}
 		
@@ -149,6 +151,15 @@ public class CommandCenterService {
 		public void setId(int id) {
 			this.id = id;
 		}
+		
+		public ArrayList<Integer> getVehiclesL() {
+			return vehiclesL;
+		}
+
+		public void setVehiclesL(ArrayList<Integer> vehiclesL) {
+			this.vehiclesL = vehiclesL;
+		}
+
 		@Override
 		public String toString() {
 			return "Station : "+id+" --- "+coord;

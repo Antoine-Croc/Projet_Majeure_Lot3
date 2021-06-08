@@ -21,7 +21,6 @@ import com.project.model.dto.VehicleType;
 import com.project.rest.VehicleRestCtrl.RouteBean;
 import com.project.model.InterventionDto;
 
-
 @Service
 public class VehicleService {
 
@@ -33,7 +32,7 @@ public class VehicleService {
 	}
 
 	public void addVehicle(Vehicle vehicle) {
-		 vRepository.save(vehicle);
+		vRepository.save(vehicle);
 	}
 
 	public int getVehicleSize(Vehicle vehicle) {
