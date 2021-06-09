@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.model.dto.FireDto;
+import com.project.model.dto.LiquidType;
 import com.sp.model.Station;
 import com.sp.repo.StationRepo;
 
@@ -89,34 +90,55 @@ public class StationService {
 		return station.getSize()-station.getSpaceUsed(); //TODO
 	}
 	
+	public LiquidType getGoodLiquid(List<LiquidType> allTypes, String fType) {
+		float f=0;
+		LiquidType GoodLiquid = LiquidType.ALL;
+		for (int j=0;j<allTypes.size();j++) {
+			if (f<allTypes.get(j).getEfficiency(fType)) {
+				f=allTypes.get(j).getEfficiency(fType);
+				GoodLiquid=allTypes.get(j);	
+			}
+		}
+		return GoodLiquid;
+	}	
+	
 	public String findGoodTruck(int id, int idFire) {
 		String ret = "KO"; 
+		List <LiquidType> AllTypes = new ArrayList<LiquidType>();
+		AllTypes.add(LiquidType.WATER);
+		AllTypes.add(LiquidType.WATER_WITH_ADDITIVES);
+		AllTypes.add(LiquidType.CARBON_DIOXIDE);
+		AllTypes.add(LiquidType.POWDER);
 		Station stationTest = getStation(id);
 		System.out.println(id);
 		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8083/fires/"+idFire, FireDto.class);
-		for (Integer idV : stationTest.getVehiclesL()) {
-			ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
-			VehicleDto vehicleTest = vehicleTestTemp.getBody();
-			int idVehicule = vehicleTest.getId();
-			double lonFeu = fire.getBody().getLon();
-			double latFeu = fire.getBody().getLat();
-			System.out.println(vehicleTest.toString() + " - -  -------------------- "+ idVehicule);
-			if (vehicleTest.getLiquidType().toString().equals("ALL")) {
-				ResponseEntity<Boolean> booleeanvehicleG= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV+"/intervention", Boolean.class);
-				boolean booleeanvehicle = booleeanvehicleG.getBody();
-				System.out.println(booleeanvehicle + " !!!!! ");
-				if (!booleeanvehicle) {
-					String url = "http://localhost:8086/interventions/"+"?idF="+idFire+"&idV="+idVehicule;
-					HttpHeaders headers = new HttpHeaders();
-					headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-					HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
-					ResponseEntity<String> retourIntervention = new RestTemplate().postForEntity( url, request , String.class );
-					String urlv = "http://localhost:8082/vehicles/"+idVehicule+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
-					ResponseEntity<String> retourVehicule = new RestTemplate().postForEntity( urlv, request , String.class );
-					ret = "OK";
-					break;
+		for (int i=0;i<4;i++) {	
+			LiquidType wantedVehicleLiquid = getGoodLiquid(AllTypes, fire.getBody().getType());
+			for (Integer idV : stationTest.getVehiclesL()) {
+				ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
+				VehicleDto vehicleTest = vehicleTestTemp.getBody();
+				int idVehicule = vehicleTest.getId();
+				double lonFeu = fire.getBody().getLon();
+				double latFeu = fire.getBody().getLat();
+				System.out.println(vehicleTest.toString() + " - -  -------------------- "+ idVehicule);
+				if (vehicleTest.getLiquidType().toString().equals(wantedVehicleLiquid.name()) ) {
+					ResponseEntity<Boolean> booleeanvehicleG= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV+"/intervention", Boolean.class);
+					boolean booleeanvehicle = booleeanvehicleG.getBody();
+					System.out.println(booleeanvehicle + " !!!!! ");
+					if (!booleeanvehicle) {
+						String url = "http://localhost:8086/interventions/"+"?idF="+idFire+"&idV="+idVehicule;
+						HttpHeaders headers = new HttpHeaders();
+						headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+						HttpEntity<Void> request = new HttpEntity<Void>(null, headers);
+						ResponseEntity<String> retourIntervention = new RestTemplate().postForEntity( url, request , String.class );
+						String urlv = "http://localhost:8082/vehicles/"+idVehicule+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
+						ResponseEntity<String> retourVehicule = new RestTemplate().postForEntity( urlv, request , String.class );
+						ret = "OK";
+						break;
+					}
 				}
 			}
+			AllTypes.remove(wantedVehicleLiquid);
 		}
 		return ret; 
 	}
