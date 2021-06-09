@@ -120,7 +120,7 @@ return myResponse;
 }
 
 function interventionIntervalle(){
-setInterval(function(){ intervention(); }, 2000);
+setInterval(function(){ intervention(); }, 10000);
 }
 
 

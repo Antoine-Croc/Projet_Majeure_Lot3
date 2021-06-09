@@ -94,11 +94,14 @@ public class StationService {
 		float f=0;
 		LiquidType GoodLiquid = LiquidType.ALL;
 		for (int j=0;j<allTypes.size();j++) {
+			System.out.println("efficiency comparée" + allTypes.get(j).getEfficiency(fType));
+			System.out.println("efficiency actuelle" + f);
 			if (f<allTypes.get(j).getEfficiency(fType)) {
 				f=allTypes.get(j).getEfficiency(fType);
 				GoodLiquid=allTypes.get(j);	
 			}
 		}
+
 		return GoodLiquid;
 	}	
 	
@@ -110,11 +113,12 @@ public class StationService {
 		AllTypes.add(LiquidType.CARBON_DIOXIDE);
 		AllTypes.add(LiquidType.POWDER);
 		Station stationTest = getStation(id);
-		System.out.println(id);
+
 		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8083/fires/"+idFire, FireDto.class);
 		for (int i=0;i<4;i++) {	
+			System.out.println(AllTypes);
 			LiquidType wantedVehicleLiquid = getGoodLiquid(AllTypes, fire.getBody().getType());
-			System.out.println("Chercher vehicule avec le liquide: " + wantedVehicleLiquid);
+
 			for (Integer idV : stationTest.getVehiclesL()) {
 				ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
 				VehicleDto vehicleTest = vehicleTestTemp.getBody();
@@ -135,6 +139,8 @@ public class StationService {
 						String urlv = "http://localhost:8082/vehicles/"+idVehicule+"/coord?lon="+fire.getBody().getLon()+"&lat="+fire.getBody().getLat();
 						ResponseEntity<String> retourVehicule = new RestTemplate().postForEntity( urlv, request , String.class );
 						ret = "OK";
+						System.out.println("vehicule envoye:----------------------------------- ");
+						i=4;
 						break;
 					}
 				}
