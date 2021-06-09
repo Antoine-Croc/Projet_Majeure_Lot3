@@ -114,6 +114,7 @@ public class StationService {
 		ResponseEntity<FireDto> fire= new RestTemplate().getForEntity("http://localhost:8083/fires/"+idFire, FireDto.class);
 		for (int i=0;i<4;i++) {	
 			LiquidType wantedVehicleLiquid = getGoodLiquid(AllTypes, fire.getBody().getType());
+			System.out.println("Chercher vehicule avec le liquide: " + wantedVehicleLiquid);
 			for (Integer idV : stationTest.getVehiclesL()) {
 				ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
 				VehicleDto vehicleTest = vehicleTestTemp.getBody();
@@ -139,6 +140,7 @@ public class StationService {
 				}
 			}
 			AllTypes.remove(wantedVehicleLiquid);
+			System.out.println("Retiré liquide " + wantedVehicleLiquid + " de la liste.");
 		}
 		return ret; 
 	}
