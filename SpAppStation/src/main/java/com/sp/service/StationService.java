@@ -56,10 +56,15 @@ public class StationService {
 	}
 	
 	public void addVehicle(Station station, int idV) {
-		station.getVehiclesL().add(idV);
+		ResponseEntity<VehicleDto> vehicleTestTemp= new RestTemplate().getForEntity("http://localhost:8082/vehicles/"+idV, VehicleDto.class);
+		VehicleDto vehicleTest = vehicleTestTemp.getBody();
+		int vSize = vehicleTest.getType().getSpaceUsedInFacility();
+		if (vSize < getStationFreeSpace(station)) {
+			station.getVehiclesL().add(idV);
+			occupyVehicleSpace(station, idV);
+		}
 		stationRepo.save(station);
 	}
-	
 	public void removeVehicle(Station station, int idV) {
 		station.getVehiclesL().remove(idV);
 		stationRepo.save(station);
