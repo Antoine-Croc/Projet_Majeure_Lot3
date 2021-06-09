@@ -1,0 +1,61 @@
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+  }
+  #map {
+    /* configure the size of the map */
+    width: 90%;
+    height: 60%;
+    margin-left: 5%;
+  }
+  h1 {
+    color: white;
+    text-align: center;
+  }
+
+  label,p {
+      color:white;
+  }
+
+  .filtrage {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    
+  }
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(auto, auto);
+    margin: auto;
+    
+  }
+  .one {
+    grid-column: 1 ;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+  }
+  .two {
+    grid-column: 2 ;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+  }
+  .three {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+  }
+  
+  #titlecenter {
+    text-align: center;
+    display: block;
+    margin:auto;
+  }

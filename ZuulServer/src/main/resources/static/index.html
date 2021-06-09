@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<!--https://switch2osm.org/using-tiles/getting-started-with-leaflet/ -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title> Supervision de feu de foret</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="js/fire.js"></script>
+    <script src="js/intervention.js"></script>
+    <script src="js/vehicule.js"></script>
+    <script src="js/station.js"></script>
+    <script type="text/javascript" src="js/AnimatedMarker.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+    
+  </head>
+  <body onload="start()">   
+    <h1> Super détecteur à incendie 2000 </h1>
+    <div id="map"></div>
+    <div class = "filtrage">
+      <p id="titlecenter"> <u>Filtrage des feux</u> </p>
+      <p id="titlecenter"> <u>Filtrage des véhicules de pompiers</u> </p>
+    </div>
+    <div class = "filtrage">
+      <div class="wrapper">
+        <div class="one">
+          
+          <p>Type de feu :</p>
+          <div>
+            <input type="checkbox" id="all" name="all" onclick="fire_filter()" checked>
+            <label for="scales">Tous les types</label>
+          </div>
+          <div>
+            <input type="checkbox" id="A" name="A" onclick="fire_filter()">
+            <label for="horns">Feux secs (bois,tissus,papiers)</label>
+          </div>
+          <div>
+            <input type="checkbox" id="B_Gasoline" name="B_Gasoline" onclick="fire_filter()">
+            <label for="horns">Gasoil</label>
+          </div>
+          <div>
+            <input type="checkbox" id="B_Plastics" name="B_Plastics" onclick="fire_filter()">
+            <label for="scales">Plastique</label>
+          </div>
+          <div>
+            <input type="checkbox" id="B_Alcohol" name="B_Alcohol" onclick="fire_filter()">
+            <label for="scales">Alcool</label>
+          </div>
+          <div>
+            <input type="checkbox" id="C_Flammable_Gases" name="C_Flammable_Gases" onclick="fire_filter()">
+            <label for="scales">Gaz inflammables</label>
+          </div>
+          <div>
+            <input type="checkbox" id="D_Metals" name="D_Metals" onclick="fire_filter()">
+            <label for="scales">Metaux</label>
+          </div>
+          <div>
+            <input type="checkbox" id="E_Electric" name="E_Electric" onclick="fire_filter()">
+            <label for="scales">Electrique</label>
+          </div>
+          
+        </div>
+        <div class="two">
+          <p>Intensité (%):</p>
+          <div>
+            <input type="range" id="intensity" name="intensity" min="0" max="50" value="0" onclick="fire_filter()"><p id="valueIntensity">0</p>
+          </div>
+        </div>
+        <div class="three">
+          <p>Taille :</p>
+          <div>
+            <input type="range" id="range" name="range" min="0" max="50" value="0" onclick="fire_filter()"><p id="valueRange">0</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrapper">
+        <div class="one">
+          
+          <p>Type de véhicule:</p>
+          <div>
+            <input type="checkbox" id="ALL_FIRE_CARS" name="ALL_FIRE_CARS" onclick="vehicle_filter()" checked>
+            <label for="ALL_FIRE_CARS">Tous les types de véhicules</label>
+          </div>
+          <div>
+            <input type="checkbox" id="CAR" name="CAR" onclick="vehicle_filter()">
+            <label for="CAR">Voiture</label>
+          </div>
+          <div>
+            <input type="checkbox" id="FIRE_ENGINE" name="FIRE_ENGINE" onclick="vehicle_filter()">
+            <label for="FIRE_ENGINE">Véhicule de secours</label>
+          </div>
+          <div>
+            <input type="checkbox" id="PUMPER_TRUCK" name="PUMPER_TRUCK" onclick="vehicle_filter()">
+            <label for="FIRE_ENGINE">Fourgon-pompes</label>
+          </div>
+          <div>
+            <input type="checkbox" id="WATER_TENDER" name="WATER_TENDER" onclick="vehicle_filter()">
+            <label for="WATER_TENDER">Camions citernes</label>
+          </div>
+          <div>
+            <input type="checkbox" id="TURNTABLE_LADDER_TRUCK" name="TURNTABLE_LADDER_TRUCK" onclick="vehicle_filter()">
+            <label for="TURNTABLE_LADDER_TRUCK">Camions-échelles</label>
+          </div>
+          <div>
+            <input type="checkbox" id="TRUCK" name="TRUCK" onclick="vehicle_filter()">
+            <label for="TRUCK">Camions</label>
+          </div>
+        </div>
+        <div class="two">
+          <p>Type d'agent extincteur :</p>
+          <div>
+            <input type="checkbox" id="ALL_FIRE_EXTINGUISHER" name="ALL_FIRE_EXTINGUISHER" onclick="vehicle_filter()" checked>
+            <label for="ALL_FIRE_EXTINGUISHER">Tous les types de liquide</label>
+          </div>
+          <div>
+            <input type="checkbox" id="WATER" name="WATER" onclick="vehicle_filter()">
+            <label for="WATER">Eau</label>
+          </div>
+          <div>
+            <input type="checkbox" id="WATER_OR_FOAM" name="WATER_OR_FOAM" onclick="vehicle_filter()">
+            <label for="WATER_OR_FOAM">Eau avec additif ou mousse</label>
+          </div>
+          <div>
+            <input type="checkbox" id="CO2" name="CO2" onclick="vehicle_filter()">
+            <label for="CO2">Dioxyde de carbone</label>
+          </div>
+          <div>
+            <input type="checkbox" id="POWDER" name="POWDER" onclick="vehicle_filter()">
+            <label for="POWDER">Poudre</label>
+          </div>
+        </div>
+        <div class="three">
+          <p>Capacité du véhicule :</p>
+          <div>
+            <input type="range" id="capacity" name="capacity" min="0" max="20" value="0" onclick="vehicle_filter()"><p id="valueCapacity">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script>
+      function start(){
+        intervalleFire();
+        interventionIntervalle();
+        intervalleStation();
+      }
+      var fire_marker = Array();
+      var vehicle_marker = Array();
+      var id_moving_vehicle = Array();
+      var id_intervention_vehicle = Array();
+      var station_marker = Array();
+      var map = L.map('map').setView([45.764043, 4.835659], 11);
+    	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      var feu_interv_lat = 0;
+      var feu_interv_lon = 0;
+      var id_interv_vehicule = 0;
+      
+    </script>
+    <script src="js/scriptOnload.js"></script>
+  </body>
+</html>
