@@ -125,7 +125,6 @@ public class FireService {
 		// mettre le repository a jour
 		FireDto[] FiresDto = response.getBody();
 		for (FireDto fireDto : FiresDto) {
-
 			Optional<Fire> hOpt = fireRepo.findById(fireDto.getId());
 			if (hOpt.isPresent()) {
 				fire = hOpt.get();
@@ -133,19 +132,24 @@ public class FireService {
 				fire=null;
 			}
 
-			// si le vehicle existe deja dans le local repository,
+			// si le fire existe deja dans le local repository,
 			// mettre a jour ses attributs
 			if (fire != null) {
 				fire = updateAttributes(fire, fireDto);
-				fireRepo.save(fire);
+				//si l'intensite du fire est null, on le supprime de la liste
+				if(fire.getIntensity() == 0) {fireRepo.delete(fire);}
+				//sinon on le stocke dans le local
+				else {fireRepo.save(fire);}
 			}
-			// sinon on cree un nouveau vehicle dans le local repository
+			// sinon on cree un nouveau fire dans le local repository
 			else {
 				fire = new Fire(fireDto.getId(),fireDto.getType(),fireDto.getIntensity(),fireDto.getRange(),fireDto.getLon(),fireDto.getLat());
-				
 				fireRepo.save(fire);
 			}
+			
 
 		}
+		
+	
 	}
 }
